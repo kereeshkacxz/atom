@@ -73,7 +73,9 @@
       <div class="dropdown-content">
         <NuxtLink class="btn_page" to="/profile">Личная информация</NuxtLink>
         <a href="#">Link 2</a>
-        <NuxtLink class="div_login btn_page" @click="logout()">Выйти</NuxtLink>
+        <NuxtLink class="div_login btn_page" id="logout" @click="logout()"
+          >Выйти</NuxtLink
+        >
       </div>
     </div>
     <NuxtLink
@@ -97,6 +99,20 @@ async function fetchData() {
   if (localStorage.getItem("token") === null) {
     login.value = "";
     return;
+  }
+  try {
+    const response = await $api.get(`/api/v1/user/me`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    login.value = response.data.login;
+    localStorage.setItem("admin", response.data.type === "admin");
+    localStorage.setItem("superadmin", response.data.type === "superadmin");
+  } catch (error) {
+    console.error(error);
+    logout();
   }
 }
 
@@ -189,22 +205,13 @@ window.addEventListener("storage", (event) => {
   color: var(--main-color);
 }
 
-.logout {
-  color: var(--unsuccess-color);
-  opacity: 50%;
-  cursor: pointer;
-  transition: all 0.1s;
-}
-.logout:hover {
-  opacity: 100%;
-}
 .img {
   height: 30px;
   aspect-ratio: 1/1;
 }
 .dropbtn {
   background-color: var(--main-color);
-  color: white;
+  color: black;
   border-radius: 5%;
   padding: 10px;
   display: flex;
@@ -212,6 +219,7 @@ window.addEventListener("storage", (event) => {
   align-items: center;
   font-size: 16px;
   border: none;
+  cursor: pointer;
 }
 
 .dropdown {
@@ -222,7 +230,7 @@ window.addEventListener("storage", (event) => {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
+  background-color: var(--second-color);
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
@@ -230,14 +238,14 @@ window.addEventListener("storage", (event) => {
 }
 
 .dropdown-content a {
-  color: black;
+  color: var(--text-color);
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
 
 .dropdown-content a:hover {
-  background-color: #ddd;
+  background-color: var(--editor-color);
 }
 
 .dropdown:hover .dropdown-content {
@@ -247,5 +255,14 @@ window.addEventListener("storage", (event) => {
 
 .dropdown:hover .dropbtn {
   background-color: var(--main-color70);
+}
+#logout {
+  color: var(--unsuccess-color);
+  opacity: 50%;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+#logout:hover {
+  opacity: 100%;
 }
 </style>

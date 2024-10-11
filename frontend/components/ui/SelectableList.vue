@@ -167,7 +167,8 @@ watch(
 }
 
 .option:hover {
-  background-color: var(--main-color);
+  background-color: var(--main-color70);
+  color: black;
   padding: 4px 10px;
 }
 </style>
