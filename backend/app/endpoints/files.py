@@ -7,7 +7,7 @@ from starlette.responses import RedirectResponse
 
 from app.db.connection import getSession
 from app.models import FoldersTable, FilesTable
-from app.repositories.files import createFile, deleteFile, getFile, getFolders, getFolder, createFolder, deleteFolder
+from app.repositories.files import createFile, deleteFile, getFile, getFolders, getFolder, createFolder, deleteFolder, getFilesByFolder
 from app.utils.auth import isUserAdmin
 
 apiRouter = APIRouter(prefix="", tags=["Files"])
@@ -43,6 +43,17 @@ async def read_all_folders(session: AsyncSession = Depends(getSession)):
     return await getFolders(session)
 
 # Эндпоинты для работы с файлами
+
+@apiRouter.get(
+    "/files/",
+    response_model=list[FilesTable],
+    status_code=status.HTTP_200_OK,
+)
+async def read_files_in_folder(folder_id: uuid.UUID, session: AsyncSession = Depends(getSession)):
+    folder = await getFolder(session, folder_id)
+    if not folder:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Folder not found")
+    return await getFilesByFolder(session, folder_id)
 
 @apiRouter.post(
     "/files/",

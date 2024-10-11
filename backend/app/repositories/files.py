@@ -13,6 +13,11 @@ async def getFolders(session: AsyncSession) -> list[FoldersTable]:
     folders = await session.execute(statement)
     return folders.scalars().all()
 
+async def getFilesByFolder(session: AsyncSession, folder_id: uuid.UUID) -> list[FoldersTable]:
+    statement = select(FilesTable).where(FilesTable.folder_id == folder_id)
+    folders = await session.execute(statement)
+    return folders.scalars().all()
+
 async def createFolder(session: AsyncSession, name: str) -> FoldersTable:
     folder = FoldersTable(name=name)
     session.add(folder)
