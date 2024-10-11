@@ -11,9 +11,9 @@
     <div class="chip-container">
       <div class="chip" v-for="(chip, index) in chips" :key="index">
         <span>{{ chip }}</span>
-        <img
+        <NuxtImg
           preload
-          src="~/public/cross.png"
+          src="http://localhost:3000/_nuxt/public/cross.png"
           @click="removeChip(index)"
           class="remove-button"
         />
@@ -36,35 +36,30 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(); // Определяем emit
-
+const emit = defineEmits();
 const currentChip = ref(-1);
 
-// Инициализируем chips значением из modelValue
 const chips = ref([...props.modelValue]);
 
 const removeChip = (index) => {
   chips.value.splice(index, 1);
-  emit("update:modelValue", chips.value); // Обновляем v-model
+  emit("update:modelValue", chips.value);
 };
 
 const addChip = () => {
   if (currentChip.value >= 0) {
-    const chipToAdd = props.availableChips[currentChip.value];
-    if (chipToAdd) {
+    const chipToAdd = availableChips.value[currentChip.value];
+    if (chipToAdd && !chips.value.includes(chipToAdd)) {
       chips.value.push(chipToAdd);
-      emit("update:modelValue", chips.value); // Обновляем v-model
-      currentChip.value = -1; // Сброс текущего индекса после добавления
+      emit("update:modelValue", chips.value);
     }
   }
 };
 
-// Вычисляемый массив доступных чипов
 const availableChips = computed(() => {
   return props.availableChips.filter((chip) => !chips.value.includes(chip));
 });
 
-// Синхронизация chips с modelValue при изменении
 watch(
   () => props.modelValue,
   (newValue) => {

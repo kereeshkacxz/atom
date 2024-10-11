@@ -72,7 +72,10 @@
       <button class="dropbtn">Профиль</button>
       <div class="dropdown-content">
         <NuxtLink class="btn_page" to="/profile">Личная информация</NuxtLink>
-        <a href="#">Link 2</a>
+        <NuxtLink class="btn_page" to="/admin" v-if="isAdmin"
+          >Админ-панель</NuxtLink
+        >
+
         <NuxtLink class="div_login btn_page" id="logout" @click="logout()"
           >Выйти</NuxtLink
         >
@@ -84,7 +87,10 @@
       :style="{ width: '130px' }"
       :to="`/authorization`"
     >
-      <img class="img" src="~/public/people.png" />
+      <NuxtImg
+        class="img"
+        src="http://localhost:3000/_nuxt/public/people.png"
+      />
       Войти
     </NuxtLink>
   </div>
@@ -94,7 +100,7 @@
 const { $api } = useNuxtApp();
 const login = ref("");
 const color = ref("#FFFFFF");
-
+const isAdmin = ref(false);
 async function fetchData() {
   if (localStorage.getItem("token") === null) {
     login.value = "";
@@ -110,6 +116,9 @@ async function fetchData() {
     login.value = response.data.login;
     localStorage.setItem("admin", response.data.type === "admin");
     localStorage.setItem("superadmin", response.data.type === "superadmin");
+    isAdmin.value =
+      response.data.type === "admin" || response.data.type === "superadmin";
+    console.log(isAdmin.value);
   } catch (error) {
     console.error(error);
     logout();
@@ -127,6 +136,8 @@ function resetColor() {
 function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("admin");
+  localStorage.removeItem("superadmin");
+
   login.value = "";
 }
 

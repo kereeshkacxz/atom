@@ -24,16 +24,6 @@
 </template>
 
 <script setup>
-import {
-  ref,
-  onMounted,
-  onUnmounted,
-  watch,
-  defineEmits,
-  defineProps,
-} from "vue";
-import CInput from "./CInput.vue";
-
 const emits = defineEmits(["changeIndex"]);
 const props = defineProps({
   items: { type: Array, default: () => [] },
