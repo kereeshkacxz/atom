@@ -39,9 +39,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       backendUrl: process.env.BACKEND_URL || "http://localhost:8080", // URL бэкенда
-      pages: {
-        about: "О сервисе", // Название страницы "О сервисе"
-      },
+      pages: {},
     },
   },
 

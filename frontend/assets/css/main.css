@@ -4,7 +4,7 @@
   box-sizing: border-box;
 
   --main-color: #2efefe;
-  --main-color20: #1391f94b;
+  --main-color70: #2efefeb3;
   --second-color: #2a2a2a;
   --third-color: #2b2b2b;
   --text-color: white;
@@ -23,7 +23,7 @@
 
   --success-color: #46af51;
   --unsuccess-color: #e84646;
-  --header-height: 60px;
+  --header-height: 80px;
   --padding-content-height: 50px;
   --padding-content-width: 100px;
   --padding-content-width-small: 20px;

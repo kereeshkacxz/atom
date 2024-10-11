@@ -1,6 +1,11 @@
 <template>
   <div class="div_header">
-    <NuxtLink class="logo_text" :to="`/`">
+    <NuxtLink
+      class="logo_text"
+      :to="`/`"
+      @mouseover="changeColor"
+      @mouseleave="resetColor"
+    >
       <svg width="41" height="40" viewBox="0 0 41 40" fill="none">
         <path
           d="M20 40H20.0806C31.129 40 40.0806 31.0887 40.0806 20C40.0806 8.91129 31.1694 0 20.0806 0H20C8.91129 0 0 8.91129 0 20C0 31.0887 8.95161 40 20 40Z"
@@ -46,75 +51,61 @@
       <svg width="107" height="16" viewBox="0 0 107 16" fill="none">
         <path
           d="M18.3523 1.67338C17.7954 0.850566 17.173 0.561523 16.2384 0.561523H12.1205C11.1859 0.561523 10.5635 0.850566 10.0066 1.67338L0.859375 15.2064H4.42038L5.97738 12.9576C6.35506 12.4007 6.77898 12.1117 7.51315 12.1117H20.8438C21.578 12.1117 22.0019 12.4007 22.3796 12.9576L23.9366 15.2064H27.4976L18.3523 1.67338ZM11.6985 4.32101C12.0319 3.80844 12.4327 3.38644 13.2555 3.38644H15.1034C15.9262 3.38644 16.3058 3.80844 16.6604 4.32101L19.9362 9.14996H8.42074L11.6966 4.32101H11.6985Z"
-          fill="#FFFFFF"
+          :fill="color"
         ></path>
         <path
           d="M55.3766 8.57399V7.19429C55.3766 5.28082 55.1993 4.52353 57.134 3.94544C58.9588 3.41168 62.6084 3.23247 63.834 3.23247C65.0595 3.23247 68.7073 3.40975 70.5321 3.94544C72.4687 4.52353 72.2895 5.28082 72.2895 7.19429V8.57399C72.2895 10.4875 72.4667 11.2447 70.5321 11.8228C68.7073 12.3566 65.0576 12.5358 63.834 12.5358C62.6104 12.5358 58.9588 12.3585 57.134 11.8228C55.1974 11.2447 55.3766 10.4875 55.3766 8.57399ZM52.3281 5.21338V10.5549C52.3281 12.6244 52.5729 13.6033 54.7311 14.4493C56.6233 15.1834 60.273 15.696 63.834 15.696C67.395 15.696 71.0446 15.1834 72.9369 14.4493C75.0951 13.6033 75.3398 12.6244 75.3398 10.5549V5.21338C75.3398 3.14383 75.0951 2.16494 72.9369 1.31901C71.0446 0.584836 67.395 0.0722656 63.834 0.0722656C60.273 0.0722656 56.6233 0.584836 54.7311 1.31901C52.5729 2.16494 52.3281 3.14383 52.3281 5.21338Z"
-          fill="#FFFFFF"
+          :fill="color"
         ></path>
         <path
           d="M35.6924 15.2064H38.6753V4.52337C38.6753 3.67743 39.0318 3.38839 39.8334 3.38839H49.2485L48.3814 1.58669C48.0037 0.785076 47.468 0.563477 46.5777 0.563477H27.7938C26.9035 0.563477 26.3698 0.785076 25.9902 1.58669L25.123 3.38839H34.5381C35.3398 3.38839 35.6962 3.67743 35.6962 4.52337V15.2064H35.6924Z"
-          fill="#FFFFFF"
+          :fill="color"
         ></path>
         <path
           d="M92.4504 10.3774H94.0093C95.0556 10.3774 95.522 10.0441 95.9228 9.50837L101.53 1.9181C102.264 0.916083 102.754 0.561523 103.956 0.561523H106.07V15.2064H103.087V4.56766L97.368 12.4682C96.7668 13.291 96.0769 13.6263 95.1192 13.6263H91.3809C90.4232 13.6263 89.7122 13.2929 89.111 12.4682L83.3687 4.58886V15.2044H80.3857V0.561523H82.4996C83.702 0.561523 84.2127 0.96233 84.9256 1.9181L90.535 9.50837C90.9358 10.0421 91.4021 10.3774 92.4485 10.3774H92.4504Z"
-          fill="#FFFFFF"
+          :fill="color"
         ></path>
       </svg>
     </NuxtLink>
 
-    <div class="div_navbar" :class="{ 'is-active': isMenuOpen }">
-      <NuxtLink
-        v-for="(key, i) in Object.keys(pages)"
-        :key="i"
-        class="btn_page"
-        :class="{ active_page: useRoute().name === key }"
-        :to="`/${key}`"
-        >{{ pages[key] }}</NuxtLink
-      >
-      <div v-if="login !== ''" class="div_login" :style="{ width: '160px' }">
-        {{ login }}
-        <span class="logout" @click="logout">Выйти</span>
+    <div v-if="login !== ''" class="dropdown">
+      <button class="dropbtn">Профиль</button>
+      <div class="dropdown-content">
+        <NuxtLink class="btn_page" to="/profile">Личная информация</NuxtLink>
+        <a href="#">Link 2</a>
+        <NuxtLink class="div_login btn_page" @click="logout()">Выйти</NuxtLink>
       </div>
-      <NuxtLink
-        v-else
-        class="div_autho"
-        :style="{ width: '160px' }"
-        :to="`/authorization`"
-      >
-        Авторизоваться
-      </NuxtLink>
     </div>
-
-    <div class="burger" @click="toggleMenu">
-      <span :class="{ 'is-active': isMenuOpen }"></span>
-      <span :class="{ 'is-active': isMenuOpen }"></span>
-      <span :class="{ 'is-active': isMenuOpen }"></span>
-    </div>
+    <NuxtLink
+      v-else
+      class="div_autho btn_page"
+      :style="{ width: '130px' }"
+      :to="`/authorization`"
+    >
+      <img class="img" src="~/public/people.png" />
+      Войти
+    </NuxtLink>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
-
 const { $api } = useNuxtApp();
-const config = useRuntimeConfig();
-const pages = config.public.pages;
-const router = useRouter();
 const login = ref("");
-const isMenuOpen = ref(false);
+const color = ref("#FFFFFF");
 
 async function fetchData() {
   if (localStorage.getItem("token") === null) {
     login.value = "";
     return;
   }
-  // Ваш код для получения данных пользователя
 }
 
-function toggleMenu() {
-  isMenuOpen.value = !isMenuOpen.value;
+function changeColor() {
+  color.value = "#2efefe";
+}
+
+function resetColor() {
+  color.value = "#FFFFFF";
 }
 
 function logout() {
@@ -138,11 +129,14 @@ window.addEventListener("storage", (event) => {
   width: 100%;
   height: var(--header-height);
   padding: 0px 20px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
   text-align: center;
+
   user-select: none;
+
   border-bottom: 1px solid var(--main-color);
 }
 
@@ -153,49 +147,105 @@ window.addEventListener("storage", (event) => {
   align-items: center;
   gap: 10px;
   width: 200px;
+  transition: all 0.2s;
 }
 
-.div_navbar {
+.logo_text:hover {
+  transform: scale(110%);
+}
+
+.btn_page,
+.div_autho {
   display: flex;
-  gap: 30px;
-}
-
-.burger {
-  display: none;
-  flex-direction: column;
+  align-items: center;
+  transition: all 0.2s;
+  font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
 }
 
-.burger span {
-  height: 3px;
-  width: 25px;
-  background: var(--main-color);
-  margin: 4px 0;
-  transition: 0.3s;
+.btn_page:hover,
+.div_autho:hover {
+  color: var(--main-color);
 }
 
-.is-active {
-  background: var(--main-color);
+.div_autho {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  color: var(--bg-color);
+  border-radius: 20px;
+  background: var(--editor-color);
 }
 
-@media (max-width: 768px) {
-  .div_navbar {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: var(--header-height);
-    left: 0;
-    background-color: var(--second-color);
-    width: 100%;
-    z-index: 10;
-  }
+.div_login {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 20px;
+  color: var(--main-color);
+}
 
-  .div_navbar.is-active {
-    display: flex;
-  }
+.logout {
+  color: var(--unsuccess-color);
+  opacity: 50%;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.logout:hover {
+  opacity: 100%;
+}
+.img {
+  height: 30px;
+  aspect-ratio: 1/1;
+}
+.dropbtn {
+  background-color: var(--main-color);
+  color: white;
+  border-radius: 5%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  border: none;
+}
 
-  .burger {
-    display: flex;
-  }
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  left: -60px;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: var(--main-color70);
 }
 </style>
