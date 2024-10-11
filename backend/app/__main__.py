@@ -70,7 +70,10 @@ def getApp() -> FastAPI:
 
 app = getApp()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+if not os.path.exists("files"):
+    os.makedirs("files")
+
+app.mount("/files", StaticFiles(directory="files"), name="files")
 
 scheduler = BackgroundScheduler()
 bindSchedulers(scheduler)
