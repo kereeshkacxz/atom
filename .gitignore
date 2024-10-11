@@ -56,7 +56,7 @@ coverage.xml
 *.log
 *.pot
 media/
-static/
+# static/
 
 # Sphinx documentation
 docs/build/

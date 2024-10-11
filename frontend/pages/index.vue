@@ -8,12 +8,12 @@
 const { $api } = useNuxtApp();
 const tmp = ref("");
 async function fetchData() {
-  // try {
-  //   const response = await $api.get(`api/v1/health_check/ping`);
-  //   tmp.value = response.data;
-  // } catch (error) {
-  //   console.error(error);
-  // }
+  try {
+    const response = await $api.get(`api/v1/health_check/ping`);
+    tmp.value = response.data;
+  } catch (error) {
+    console.error(error);
+  }
 }
 onMounted(() => {
   fetchData();
