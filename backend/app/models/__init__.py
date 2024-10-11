@@ -1,6 +1,8 @@
 from .registration import RegistrationAdmin, RegistrationForm, RegistrationSuccess
 from .token import Token, TokenData
 from .user import AuthSchema, UserSchema, UserTable
+from .files import FilesTable, FoldersTable
+
 
 
 __all__ = [
@@ -10,4 +12,8 @@ __all__ = [
     "Token",
     "RegistrationForm",
     "RegistrationAdmin",
+    "RegistrationSuccess",
+    "AuthSchema",
+    "FilesTable",
+    "FoldersTable",
 ]
