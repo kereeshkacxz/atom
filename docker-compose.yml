@@ -1,0 +1,67 @@
+services:
+  atom-db:
+    container_name: ${POSTGRES_HOST}
+    hostname: ${POSTGRES_HOST}
+    image: postgres:latest
+    env_file:
+      - ./.env
+    ports:
+      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./backend/postgres-data:/var/lib/postgresql/data
+    networks:
+      - networkName
+
+  atom-backend:
+    container_name: ${BACKEND_HOST}
+    hostname: ${BACKEND_HOST}
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    ports:
+      - '${BACKEND_PORT}:${BACKEND_PORT}'
+    env_file:
+      - ./.env
+    depends_on:
+      atom-db:
+        condition: service_healthy
+    volumes:
+      - ./backend/app:/app
+    networks:
+      - networkName
+
+  atom-front:
+    container_name: ${FRONTEND_HOST}
+    hostname: ${FRONTEND_HOST}
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    ports:
+      - '${FRONTEND_PORT}:${FRONTEND_PORT}'
+    env_file:
+      - ./.env
+    restart: on-failure
+    volumes:
+      - ./frontend/assets:/web/assets
+      - ./frontend/components:/web/components
+      - ./frontend/layouts:/web/layouts
+      - ./frontend/middleware:/web/middleware
+      - ./frontend/pages:/web/pages
+      - ./frontend/plugins:/web/plugins
+      - ./frontend/public:/web/public
+      - ./frontend/utils:/web/utils
+      - ./frontend/nuxt.config.ts:/web/nuxt.config.ts
+    environment:
+      - NODE_ENV=development
+    networks:
+      - networkName
+    command: npm run dev
+
+
+networks:
+  networkName:
