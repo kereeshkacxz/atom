@@ -1,29 +1,10 @@
-<template>
-  <div class="wrapper">
-    <AtomHeader :index="curTab" @changeIndex="changeTab" />
-    <TestingSpecification v-if="curTab === 0" />
-  </div>
-</template>
+<template></template>
 
 <script setup>
-import TestingSpecification from "./TestingSpecification.vue";
-const { $api } = useNuxtApp();
-const curTab = ref(0);
-
-function changeTab(newValue) {
-  curTab.value = newValue;
-}
-
-async function fetchData() {
-  try {
-    const response = await $api.get(`api/v1/health_check/ping`);
-  } catch (error) {
-    console.error(error);
-  }
-}
+const router = useRouter();
 
 onMounted(() => {
-  fetchData();
+  router.push({ name: "testing" });
 });
 </script>
 

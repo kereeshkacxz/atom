@@ -1,133 +1,178 @@
 <template>
-  <div
-    style="
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 30px;
-    "
-  >
-    <h1>Testing</h1>
-    <FileInput @filesSelected="handleFilesSelected" />
-    <div
-      class="scrollmenu"
-      @wheel="handleScroll"
-      ref="scrollMenu"
-    >
-    <a
-        v-for="(file, index) in extractedFiles"
-        :key="index"
-        @click="selectItem(index)"
-        :class="{ active: selectedIndex === index }"
-      >
-        {{ file.name }}
-      </a>
-    </div>
-    <h2>Содержимое выбранного файла:</h2>
-    <div v-if="selectedFileContent" class="file-content">
-      <pre>{{ selectedFileContent }}</pre>
+  <div class="wrapper_swapper">
+    <AtomHeader :index="curTab" @changeIndex="changeTab" />
+    <div class="wrapper">
+      <FileInput @filesSelected="handleFilesSelected" class="file_uploader" />
+
+      <div class="slider" v-if="extractedFiles.length > 0">
+        <button class="arrow left-arrow" @click="scrollLeft">&#9664;</button>
+
+        <div class="scrollmenu" @wheel="handleScroll" ref="scrollMenu">
+          <a
+            v-for="(file, index) in extractedFiles"
+            :key="index"
+            @click="selectItem(index)"
+            :class="{ active: selectedIndex === index }"
+          >
+            {{ file.name }}
+          </a>
+        </div>
+
+        <button class="arrow right-arrow" @click="scrollRight">&#9654;</button>
+      </div>
+
+      <ChipBox
+        v-if="selectedIndex !== null"
+        v-model="selectedChips[selectedIndex]"
+        :availableChips="availableChips"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import mammoth from 'mammoth'; 
+const { $api } = useNuxtApp();
+const curTab = ref(0);
+const route = useRoute();
+const router = useRouter();
 
+function changeTab(newValue) {
+  router.push({ name: "creating" });
+}
 const extractedFiles = ref([]);
 const scrollMenu = ref(null);
-const selectedIndex = ref(0);
-const selectedFileContent = ref(null);
+const selectedIndex = ref(null);
+const selectedChips = ref([]);
+const availableChips = ref(["tmp", "tmp2"]);
+
+async function fetchData() {
+  try {
+    const responseFolders = await $api.get(`api/v1/folders`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    availableChips.value = responseFolders.data;
+  } catch (error) {
+    console.error("Ошибка получения данных:", error);
+    createNotification(`${error.response.data.detail}`, "error");
+  }
+}
 
 const handleFilesSelected = (files) => {
   extractedFiles.value = files.map((file) => {
     const match = file.name.match(/Use Case CF_(.+?)(\.[^.]+)?$/);
     return file;
   });
-  if (files.length > 0) {
-    loadFileContent(files[0]);
-  }
+  selectedIndex.value = 0;
+  selectedChips.value = new Array(extractedFiles.value.length).fill([]);
 };
 
 const handleScroll = (event) => {
-  event.preventDefault(); 
-  scrollMenu.value.scrollLeft += event.deltaY; 
+  event.preventDefault();
+  scrollMenu.value.scrollLeft += event.deltaY;
+};
+
+const scrollLeft = () => {
+  const itemWidth = scrollMenu.value.children[selectedIndex.value].offsetWidth;
+  scrollMenu.value.scrollLeft -= itemWidth;
+  changeIndex(-1);
+};
+
+const scrollRight = () => {
+  const itemWidth = scrollMenu.value.children[selectedIndex.value].offsetWidth;
+  scrollMenu.value.scrollLeft += itemWidth;
+  changeIndex(1);
+};
+
+const changeIndex = (direction) => {
+  if (selectedIndex.value === null) {
+    selectedIndex.value = 0;
+  } else {
+    const newIndex = selectedIndex.value + direction;
+    if (newIndex >= 0 && newIndex < extractedFiles.value.length) {
+      selectItem(newIndex);
+    }
+  }
 };
 
 const selectItem = (index) => {
-  selectedIndex.value = index; 
-  loadFileContent(extractedFiles.value[index]);
+  selectedIndex.value = index;
 };
 
-const loadFileContent = (file) => {
-  const reader = new FileReader();
-  reader.onload = (event) => {
-    const arrayBuffer = event.target.result; 
-    mammoth.extractRawText({ arrayBuffer: arrayBuffer })
-      .then((result) => {
-        const text = result.value;
-        // Используем nextTick, чтобы дождаться обновления DOM
-        nextTick(() => {
-          const wrappedText = wrapLongLines(text);
-          selectedFileContent.value = wrappedText; 
-        });
-      })
-      .catch((err) => {
-        console.error("Ошибка при извлечении текста:", err);
-      });
-  };
-  reader.readAsArrayBuffer(file); 
-};
-
-const wrapLongLines = (text) => {
-  const tempElement = document.createElement('div');
-  tempElement.style.visibility = 'hidden';
-  tempElement.style.position = 'absolute';
-  tempElement.style.whiteSpace = 'nowrap';
-  document.body.appendChild(tempElement);
-
-  const container = document.querySelector('.file-content');
-  
-  // Проверяем, существует ли контейнер
-  if (!container) {
-    console.error("Контейнер .file-content не найден.");
-    document.body.removeChild(tempElement); // Удаляем временный элемент
-    return text; // Возвращаем оригинальный текст, если контейнер не найден
+const handleKeydown = (event) => {
+  if (event.key === "ArrowLeft") {
+    scrollLeft();
+  } else if (event.key === "ArrowRight") {
+    scrollRight();
   }
-
-  const containerWidth = container.clientWidth; // Ширина контейнера
-  const words = text.split(' ');
-  let wrappedText = '';
-  let currentLine = '';
-
-  words.forEach((word) => {
-    tempElement.innerText = currentLine + word; // Устанавливаем текст для измерения
-    const textWidth = tempElement.clientWidth; // Получаем ширину текста
-
-    if (textWidth > containerWidth) {
-      wrappedText += currentLine.trim() + '\n'; // Добавляем текущую строку с переносом
-      currentLine = word + ' '; // Начинаем новую строку с текущего слова
-    } else {
-      currentLine += word + ' '; // Добавляем слово в текущую строку
-    }
-  });
-
-  wrappedText += currentLine.trim(); // Добавляем оставшуюся часть текста
-  document.body.removeChild(tempElement); // Удаляем временный элемент
-  return wrappedText;
 };
 
+const beforeUnload = (e) => {
+  if (extractedFiles.value.length > 0) {
+    const confirmationMessage = "Are you sure you want to leave this page?";
+    e.preventDefault();
+    e.returnValue = confirmationMessage;
+    return confirmationMessage;
+  }
+};
 
+router.beforeEach((to, from, next) => {
+  if (from.fullPath === route.fullPath && extractedFiles.value.length > 0) {
+    if (
+      confirm(
+        "Вы уверены, что хотите покинуть страницу? Внесенные изменения не сохранятся."
+      )
+    ) {
+      next();
+    } else {
+      next(false);
+    }
+  } else {
+    next();
+  }
+});
 
+onMounted(() => {
+  fetchData();
+  fetch();
+  window.addEventListener("keydown", handleKeydown);
+  window.addEventListener("beforeunload", beforeUnload);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", handleKeydown);
+  window.removeEventListener("beforeunload", beforeUnload);
+});
+
+let createNotification;
+
+function fetch() {
+  createNotification = inject("createNotification");
+}
 </script>
 
 <style scoped>
-button {
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+.file_uploader {
   width: 200px;
 }
 
+.slider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 .scrollmenu {
-  width: 80vw;
-  overflow-x: auto; 
+  overflow-x: auto;
   background-color: #333;
   white-space: nowrap;
   user-select: none;
@@ -149,23 +194,43 @@ div.scrollmenu a:hover {
 }
 
 div.scrollmenu a.active {
-  background-color: var(--main-color30); 
-  color: #ffffff; 
+  background-color: var(--main-color30);
+  color: #ffffff;
+}
+
+.arrow {
+  background: none;
+  border: none;
+  color: var(--main-color70);
+  font-size: 2em;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.arrow:hover {
+  color: #777;
 }
 
 .file-content {
-  width: 80vw; 
-  max-width: 100%; 
-  background-color: #1e1e1e; 
-  color: #ffffff; 
-  overflow: hidden; /* Изменено с hidden на auto для прокрутки */
-  padding: 10px; 
-  border: 1px solid #ccc; 
-  border-radius: 5px; 
+  width: 80vw;
+  max-width: 100%;
+  background-color: #1e1e1e;
+  color: #ffffff;
+  overflow: hidden;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   text-align: left;
 }
+
 .file-content pre {
   width: 80vw;
-  overflow-wrap: break-word; /* Переносит длинные слова */
+  overflow-wrap: break-word;
+}
+.wrapper_swapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
 }
 </style>

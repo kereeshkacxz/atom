@@ -2,15 +2,15 @@
   <div class="wrapper">
     <div class="problems_add">
       <SelectableList
-        :items="availableChips"
+        :items="availableChipsNamed"
         :curIdx="currentChip"
         @changeIndex="(i) => (currentChip = i)"
       />
       <CButton @click="addChip">Добавить</CButton>
     </div>
     <div class="chip-container">
-      <div class="chip" v-for="(chip, index) in chips" :key="index">
-        <span>{{ chip }}</span>
+      <div class="chip" v-for="(chip, index) in chips" :key="chip.id">
+        <span>{{ chip.name }}</span>
         <NuxtImg
           preload
           src="http://localhost:3000/_nuxt/public/cross.png"
@@ -49,7 +49,7 @@ const removeChip = (index) => {
 const addChip = () => {
   if (currentChip.value >= 0) {
     const chipToAdd = availableChips.value[currentChip.value];
-    if (chipToAdd && !chips.value.includes(chipToAdd)) {
+    if (chipToAdd && !chips.value.some((chip) => chip.id === chipToAdd.id)) {
       chips.value.push(chipToAdd);
       emit("update:modelValue", chips.value);
     }
@@ -57,9 +57,17 @@ const addChip = () => {
 };
 
 const availableChips = computed(() => {
-  return props.availableChips.filter((chip) => !chips.value.includes(chip));
+  return props.availableChips.filter(
+    (chip) => !chips.value.some((existingChip) => existingChip.id === chip.id)
+  );
 });
-
+const availableChipsNamed = computed(() => {
+  return props.availableChips
+    .filter(
+      (chip) => !chips.value.some((existingChip) => existingChip.id === chip.id)
+    )
+    .map((chip) => chip.name);
+});
 watch(
   () => props.modelValue,
   (newValue) => {
@@ -83,11 +91,14 @@ watch(
   border-radius: 8px;
   padding: 10px;
   flex-wrap: wrap;
+  width: 100%;
+  min-height: 70px;
 }
 
 .problems_add {
   display: flex;
   gap: 20px;
+  width: 100%;
 }
 
 .chip {

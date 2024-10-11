@@ -2,7 +2,7 @@
   <div class="div_header">
     <NuxtLink
       class="logo_text"
-      :to="`/`"
+      :to="`/testing`"
       @mouseover="changeColor"
       @mouseleave="resetColor"
     >
