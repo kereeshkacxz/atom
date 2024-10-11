@@ -1,13 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  ssr: false,
-  devtools: { enabled: false },
-  css: ["~/assets/css/main.css"],
+  ssr: false, // Отключение серверного рендеринга (SPA)
+  devtools: { enabled: true }, // Включение инструментов разработчика для удобства
+
+  css: ["~/assets/css/main.css"], // Подключение основного CSS файла
 
   vite: {
     server: {
       watch: {
-        usePolling: true,
+        usePolling: true, // Использование polling для отслеживания изменений (полезно в Docker)
       },
     },
   },
@@ -18,10 +19,6 @@ export default defineNuxtConfig({
         {
           rel: "stylesheet",
           href: "https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap",
-        },
-        {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Rubik+Wet+Paint&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap",
         },
         {
           rel: "stylesheet",
@@ -41,9 +38,9 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      backendUrl: process.env.BACKEND_URL || "http://localhost:8080",
+      backendUrl: process.env.BACKEND_URL || "http://localhost:8080", // URL бэкенда
       pages: {
-        about: "О сервисе",
+        about: "О сервисе", // Название страницы "О сервисе"
       },
     },
   },
@@ -51,10 +48,10 @@ export default defineNuxtConfig({
   components: [
     {
       path: "~/components",
-      pathPrefix: false,
+      pathPrefix: false, // Отключение префикса пути для компонентов
     },
   ],
 
-  compatibilityDate: "2024-08-14",
-  modules: ["@nuxt/image"],
+  compatibilityDate: "2024-08-14", // Дата совместимости
+  modules: ["@nuxt/image"], // Подключение модуля для работы с изображениями
 });

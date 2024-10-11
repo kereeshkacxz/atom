@@ -33,10 +33,10 @@ const notificationDuration = 5000;
 
 const currentTime = ref(Date.now());
 const notificationColors = {
-  success: "rgba(0, 128, 0, 0.6)",
-  warn: "rgba(255, 255, 0, 0.6)",
-  error: "rgba(255, 0, 0, 0.6)",
-  info: "rgba(128, 128, 128, 0.6)",
+  success: "green",
+  warn: "yellow",
+  error: "red",
+  info: "gray",
 };
 
 function createNotification(text, type) {
@@ -79,13 +79,9 @@ provide("createNotification", createNotification);
   margin: 10px 0;
   padding: 15px;
   border-radius: 5px;
-  color: var(--bg-color);
+  color: white;
   position: relative;
   animation: slide-in 0.5s ease;
-}
-
-.notification_text {
-  color: var(--bg-color);
 }
 
 .notification_timer {

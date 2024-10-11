@@ -10,8 +10,8 @@
 </template>
 
 <script setup>
-import Header from "./header.vue";
 import Notification from "./notification.vue";
+import Header from "./header.vue";
 </script>
 
 <style scoped>
@@ -21,13 +21,18 @@ import Notification from "./notification.vue";
   min-height: 100vh;
 }
 .content {
-  padding: calc(var(--padding-content-height) + var(--header-height))
-    var(--padding-content-width);
+  padding: var(--padding-content-height) var(--padding-content-width);
   width: 100%;
 
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+@media (max-width: 1100px) {
+  .content {
+    padding: var(--padding-content-height) var(--padding-content-width-small);
+  }
 }
 </style>
