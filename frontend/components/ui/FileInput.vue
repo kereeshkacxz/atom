@@ -6,6 +6,7 @@
       @change="handleFileChange"
       class="file_input_input"
       accept="*"
+      multiple
     />
     <span class="file_input_label">{{ label }}</span>
   </CButton>
@@ -15,7 +16,7 @@
 const props = defineProps({
   label: {
     type: String,
-    default: "Выберите файл",
+    default: "Выберите файлы",
   },
   active: {
     type: Boolean,
@@ -23,7 +24,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["fileSelected"]);
+const emit = defineEmits(["filesSelected"]);
 
 const fileInput = ref(null);
 
@@ -34,9 +35,10 @@ const triggerFileInput = () => {
 };
 
 const handleFileChange = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    emit("fileSelected", file);
+  const files = event.target.files;
+  if (files.length > 0) {
+    const fileArray = Array.from(files);
+    emit("filesSelected", fileArray);
   }
 };
 </script>
