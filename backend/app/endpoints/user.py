@@ -150,11 +150,27 @@ async def read_users_me(
 async def update_user(
     current_user: Annotated[UserTable, Depends(getCurrentUser)],
     username: str | None = None,
+    old_password: str | None = None,
+    password: str | None = None,
     session: AsyncSession = Depends(getSession),
 ) -> UserSchema:
 
+    if old_password is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Must provide old password",
+        )
+
     if username is not None:
         current_user.username = username
+
+    if old_password is not None and password is not None:
+        if not await authenticateUser(session, current_user.email, old_password):
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Incorrect old password",
+            )
+        current_user.password = getSettings().PWD_CONTEXT.hash(password)
 
     session.add(current_user)
     await session.commit()
