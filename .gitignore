@@ -147,13 +147,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# Игнорировать все файлы в папке static/images
-static/images/*
-
-# Игнорировать все файлы в папке static/news
-static/news/*
-
-# Но не игнорировать сами папки
-!static/images/
-!static/news/
