@@ -5,13 +5,13 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 import os
 
-from .model import RequestBody
-from .train import train_model
+from model import RequestBody
+from train import train_model as train_model_func  # Изменено имя для избежания конфликта
 
 app = FastAPI()
 
 # Загрузка модели и токенизатора
-model_name = "./model"  # Путь к сохраненной модели
+model_name = "model"  # Убедитесь, что это правильный путь к сохраненной модели
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name)
 
@@ -23,13 +23,13 @@ def generate_text(request: RequestBody):
     return {"generated_text": tokenizer.decode(outputs[0], skip_special_tokens=True)}
 
 @app.post("/train/")
-def train_model():
+def train_model_endpoint():  # Изменено имя функции для избежания конфликта
     # Проверяем, существует ли директория с данными
     if not os.path.exists('/data'):
         raise HTTPException(status_code=404, detail="Data path not found")
 
     # Запускаем обучение модели
-    train_model('/data')
+    train_model_func('/data')  # Вызов функции обучения
 
     # После обучения загружаем обновленную модель
     global tokenizer, model
@@ -42,9 +42,9 @@ def train_model():
 if __name__ == "__main__":
     run(
         "__main__:app",
-        port='8000',
+        port=8000,
         reload=True,
         reload_dirs=["app", "tests"],
         log_level="debug",
-        host='gpt-server',
+        host='0.0.0.0',  # Изменено на '0.0.0.0' для доступа извне
     )
