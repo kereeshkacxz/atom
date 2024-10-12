@@ -92,6 +92,7 @@ function open(typeNew, titleNew, params) {
 }
 
 async function removeFolder(folder) {
+  await fetchFiles(folder.id);
   const foundFolder = folders.value.find(
     (newFolder) => newFolder.id === folder.id
   );
