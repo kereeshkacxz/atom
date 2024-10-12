@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from uvicorn import run
 from pydantic import BaseModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
@@ -39,5 +40,11 @@ def train_model():
 
 # Пример вызова функции
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    run(
+        "__main__:app",
+        port='8000',
+        reload=True,
+        reload_dirs=["app", "tests"],
+        log_level="debug",
+        host='gpt-server',
+    )
