@@ -1,7 +1,11 @@
+import os
 import torch
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from transformers import pipeline
+
+# Set environment variable for memory management
+os.environ["PITCH_CUDA_MALLOC_CONF"] = "expandable_segments:True"
 
 # Инициализация FastAPI
 app = FastAPI()
@@ -22,13 +26,15 @@ class Message(BaseModel):
 class RequestData(BaseModel):
     messages: list[Message]
 
-
 @app.post("/generate/")
 async def generate_text(request_data: RequestData):
     if not request_data.messages:
         raise HTTPException(status_code=400, detail="Messages list cannot be empty.")
     
     message_list = [{"role": message.role, "content": message.content} for message in request_data.messages]
+
+    # Clear CUDA cache
+    torch.cuda.empty_cache()
 
     try:
         outputs = pipe(
