@@ -15,14 +15,17 @@ model_name = "model"  # Убедитесь, что это правильный �
 
 # Проверяем, существует ли модель
 if not os.path.exists(model_name):
-    print("Модель не найдена. Начинаем обучение...")
-    # Запускаем обучение модели
-    train_model_func('/data')  # Укажите путь к директории с вашими текстовыми файлами
-    print("Обучение завершено.")
-
-# Теперь загружаем модель и токенизатор
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(model_name)
+    print("Модель не найдена. Создаем новую модель...")
+    # Инициализация модели и токенизатора без обучения
+    model_name = "meta-llama/Llama-3.2-1B" 
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer.pad_token = tokenizer.eos_token
+    model = AutoModelForCausalLM.from_pretrained(model_name)
+    print("Новая модель создана.")
+else:
+    # Теперь загружаем модель и токенизатор
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(model_name)
 
 @app.post("/generate/")
 def generate_text(request: RequestBody):
@@ -34,11 +37,11 @@ def generate_text(request: RequestBody):
 @app.post("/train/")
 def train_model_endpoint():  # Изменено имя функции для избежания конфликта
     # Проверяем, существует ли директория с данными
-    if not os.path.exists('/data'):
+    if not os.path.exists('./data'):
         raise HTTPException(status_code=404, detail="Data path not found")
 
     # Запускаем обучение модели
-    train_model_func('/data')  # Вызов функции обучения
+    train_model_func('./data')  # Вызов функции обучения
 
     # После обучения загружаем обновленную модель
     global tokenizer, model
