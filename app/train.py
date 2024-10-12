@@ -7,13 +7,17 @@ def train_model(data_path):
     dataset = load_dataset('text', data_files=os.path.join(data_path, '*.txt'))
 
     # Инициализация модели и токенизатора
-    model_name = "meta-llama/Llama-3.2-11B-Vision-Instruct" 
+    model_name = "meta-llama/Llama-3.2-1B" 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer.pad_token = tokenizer.eos_token
     model = AutoModelForCausalLM.from_pretrained(model_name)
 
     # Подготовка данных для обучения
     def tokenize_function(examples):
-        return tokenizer(examples['text'], truncation=True, padding='max_length', max_length=512)
+        # Токенизируем текст и создаем labels
+        tokenized = tokenizer(examples['text'], truncation=True, padding='max_length', max_length=512)
+        tokenized['labels'] = tokenized['input_ids']  # Устанавливаем labels равными input_ids
+        return tokenized
 
     tokenized_dataset = dataset.map(tokenize_function, batched=True)
 
