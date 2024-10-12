@@ -1,9 +1,5 @@
-run:  ##@Run app
-	docker compose up
+build:
+	docker build -t my_fastapi_app .
 
-build:  ##@Build app and database
-	docker compose -f docker-compose.yml build
-
-env: ##@Generate env file
-	cp .env.example .env
-
+run:
+	docker run -d -p 8000:8000 my_fastapi_app
