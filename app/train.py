@@ -5,12 +5,10 @@ import os
 
 def train_model(data_path):
     # Загрузка данных
-    # Предполагается, что в data_path находятся текстовые файлы
-    # Создаем датасет из текстовых файлов
     dataset = load_dataset('text', data_files=os.path.join(data_path, '*.txt'))
 
     # Инициализация модели и токенизатора
-    model_name = "meta-llama/Llama-2-7b"  # Или другая модель
+    model_name = "meta-llama/Llama-3.2-11B-Vision-Instruct" 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(model_name)
 
