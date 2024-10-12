@@ -115,7 +115,6 @@ async function normalize() {
   }
 }
 async function short_requirements() {
-  console.log(chipsToVisible.value);
   chipsToVisible.value = chipsToVisible.value.filter((chip) =>
     selectedChips.value.some((selectedChip) => selectedChip.id === chip.id)
   );
@@ -163,7 +162,6 @@ async function short_requirements() {
           "AVAS (Acoustic Vehicle Alerting System) — это система звукового оповещения для электромобилей и гибридов, которая издает искусственный шум на низких скоростях, чтобы предупреждать пешеходов о приближении транспортного средства.",
       });
     });
-    console.log(chipsToVisible.value);
   } catch (error) {
     console.error("Error fetching new chips:", error);
     createNotification(`Unable to load shortly requirements`, "error");
@@ -247,6 +245,11 @@ textarea {
   background-color: var(--editor-color);
   font-size: 16px;
   resize: none;
+}
+textarea:focus {
+  outline: none !important;
+  border: 1px solid var(--main-color);
+  box-shadow: 0 0 10px var(--main-color30);
 }
 .left-wrapper {
   width: 50%;

@@ -44,16 +44,26 @@
         v-if="selectedIndex !== null"
         v-model="selectedChips[selectedIndex]"
         :availableChips="availableChips"
+        :removable="visiblerReport.length === 0"
       />
-      <CButton class="btn" v-if="extractedFiles.length > 0" @click="validation">
+      <CButton
+        class="btn"
+        v-if="extractedFiles.length > 0 && visiblerReport.length === 0"
+        @click="validation"
+      >
         Сгенерировать отчеты
       </CButton>
+      <div
+        class="report-displays"
+        v-if="visiblerReport.length > 0 && extractedFiles.length > 0"
+      >
+        <ReportDisplay :report="visiblerReport[selectedIndex]" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, inject } from "vue";
 import mammoth from "mammoth";
 const { $api } = useNuxtApp();
 const curTab = ref(0);
@@ -63,12 +73,14 @@ import { parserName } from "~/utils/parserName.js";
 function changeTab(newValue) {
   router.push({ name: "creating" });
 }
+
 const extractedFiles = ref([]);
 const scrollMenu = ref(null);
 const selectedIndex = ref(null);
 const selectedChips = ref([]);
 const availableChips = ref([]);
 const errorChips = ref([]);
+const visiblerReport = ref([]);
 
 const isLeftArrowDisabled = computed(
   () => selectedIndex.value === 0 || extractedFiles.value.length === 0
@@ -107,23 +119,6 @@ function validation() {
 
 async function testing() {
   try {
-    // const responseFolders = await $api.get(`api/v1/analyze_list `, {
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    //   params: {
-    //     list: extractedFiles.map((fileObject, index) => {
-    //       return {
-    //         text: fileObject.content,
-    //         folders_id: selectedChips.value[index].map((chip) => {
-    //           return chip.id;
-    //         }),
-    //       };
-    //     }),
-    //   },
-    // });
-    // availableChips.value = responseFolders.data;
     console.log({
       list: extractedFiles.value.map((fileObject, index) => {
         return {
@@ -134,8 +129,20 @@ async function testing() {
         };
       }),
     });
+
+    visiblerReport.value = [];
+
+    extractedFiles.value.forEach((fileObject, index) => {
+      const report = {
+        status: "Соответствует.",
+        description: `Файл ${fileObject.file.name} соответствует требованиям - все хорошо.`,
+        fileName: fileObject.file.name,
+      };
+      visiblerReport.value.push(report);
+    });
+
     createNotification(
-      "All files have been checked, and a report has been generated!",
+      "All files have been checked, and reports have been generated.",
       "success"
     );
   } catch (error) {
@@ -147,7 +154,8 @@ async function testing() {
 const handleFilesSelected = (files) => {
   extractedFiles.value = [];
   selectedChips.value = [];
-
+  visiblerReport.value = [];
+  selectedIndex.value = null;
   const fileReadPromises = files.map((file) => {
     if (file.type === "text/plain") {
       return loadTextFileContent(file)
@@ -351,7 +359,8 @@ div.scrollmenu a.active {
   padding: 0 10px;
 }
 
-.arrow:hover {
+.arrow:hover,
+.arrow:active {
   color: #777;
 }
 

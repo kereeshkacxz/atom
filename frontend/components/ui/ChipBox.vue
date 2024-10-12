@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="problems_add">
+    <div class="problems_add" v-if="props.removable">
       <SelectableList
         :items="availableChipsNamed"
         :curIdx="currentChip"
@@ -13,6 +13,7 @@
         <span>{{ chip.name }}</span>
         <NuxtImg
           preload
+          v-if="props.removable"
           src="http://localhost:3000/_nuxt/public/cross.png"
           @click="removeChip(index)"
           class="remove-button"
@@ -31,6 +32,10 @@ const props = defineProps({
   availableChips: {
     type: Array,
     required: true,
+  },
+  removable: {
+    type: Boolean,
+    default: true,
   },
 });
 
