@@ -98,8 +98,8 @@ async function removeFolder(folder) {
   );
 
   const files = foundFolder ? foundFolder.files : [];
-
-  if (files.length > 0) {
+  console.log(foundFolder);
+  if (files && files.length > 0) {
     createNotification("The folder must be empty to delete it.", "error");
     return;
   }
