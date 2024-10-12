@@ -109,15 +109,6 @@ const handleKeydown = (event) => {
   }
 };
 
-const beforeUnload = (e) => {
-  if (extractedFiles.value.length > 0) {
-    const confirmationMessage = "Are you sure you want to leave this page?";
-    e.preventDefault();
-    e.returnValue = confirmationMessage;
-    return confirmationMessage;
-  }
-};
-
 router.beforeEach((to, from, next) => {
   if (from.fullPath === route.fullPath && extractedFiles.value.length > 0) {
     if (
@@ -138,12 +129,10 @@ onMounted(() => {
   fetchData();
   fetch();
   window.addEventListener("keydown", handleKeydown);
-  window.addEventListener("beforeunload", beforeUnload);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("keydown", handleKeydown);
-  window.removeEventListener("beforeunload", beforeUnload);
 });
 
 let createNotification;
