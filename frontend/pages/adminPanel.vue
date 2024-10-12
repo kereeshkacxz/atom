@@ -88,6 +88,8 @@ const addFolder = () => {
 
 const addFiles = () => {
   emit("addFiles", currentFolder.value);
+  currentFolder.value = -1;
+  extractedFiles.value = [];
 };
 
 const addAdmin = () => {
