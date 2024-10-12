@@ -5,8 +5,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 import os
 
-from app.model import RequestBody
-from app.train import train_model
+from .model import RequestBody
+from .train import train_model
 
 app = FastAPI()
 
