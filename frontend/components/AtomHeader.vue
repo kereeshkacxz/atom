@@ -4,13 +4,13 @@
       class="btn"
       :class="{ active: index === 0 }"
       @click="setItemIndex(0)"
-      >Проверить требование</CButton
+      >Check Requirement</CButton
     >
     <CButton
       class="btn"
       :class="{ active: index === 1 }"
       @click="setItemIndex(1)"
-      >Создать требование</CButton
+      >Create Requirement</CButton
     >
   </div>
 </template>
@@ -44,6 +44,13 @@ watch(
   display: flex;
   height: 60px;
 }
+
+@media (max-width: 768px) {
+  .button_header {
+    gap: 15px;
+  }
+}
+
 .btn {
   border-radius: 10px;
   flex: 1;

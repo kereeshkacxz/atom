@@ -31,10 +31,12 @@
 </template>
 
 <script setup>
+import mammoth from "mammoth";
 const { $api } = useNuxtApp();
 const curTab = ref(0);
 const route = useRoute();
 const router = useRouter();
+import { parserName } from "~/utils/parserName.js";
 
 function changeTab(newValue) {
   router.push({ name: "creating" });
@@ -43,7 +45,7 @@ const extractedFiles = ref([]);
 const scrollMenu = ref(null);
 const selectedIndex = ref(null);
 const selectedChips = ref([]);
-const availableChips = ref(["tmp", "tmp2"]);
+const availableChips = ref([]);
 
 async function fetchData() {
   try {
@@ -55,7 +57,7 @@ async function fetchData() {
     });
     availableChips.value = responseFolders.data;
   } catch (error) {
-    console.error("Ошибка получения данных:", error);
+    console.error("Error fetching data:", error);
     createNotification(`${error.response.data.detail}`, "error");
   }
 }
@@ -67,6 +69,71 @@ const handleFilesSelected = (files) => {
   });
   selectedIndex.value = 0;
   selectedChips.value = new Array(extractedFiles.value.length).fill([]);
+
+  const fileReadPromises = extractedFiles.value.map((file) => {
+    if (file.type === "text/plain") {
+      return loadTextFileContent(file)
+        .then((content) => {
+          return { file, content };
+        })
+        .catch((error) => {
+          createNotification(`Ошибка чтения файла: ${file.name}`, "error");
+          return { file, content: "" };
+        });
+    } else {
+      return loadFileContent(file)
+        .then((content) => {
+          return { file, content };
+        })
+        .catch((error) => {
+          createNotification(`Ошибка чтения файла: ${file.name}`, "error");
+          return { file, content: "" };
+        });
+    }
+  });
+  Promise.all(fileReadPromises).then((results) => {
+    results.forEach(({ file, content }, index) => {
+      const names = parserName(file.name, content, availableChips.value);
+      selectedChips.value[index] = names;
+    });
+  });
+};
+
+const loadTextFileContent = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const text = event.target.result;
+      resolve(text);
+    };
+    reader.onerror = (err) => {
+      reject(err);
+    };
+    reader.readAsText(file);
+  });
+};
+
+const loadFileContent = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const arrayBuffer = event.target.result;
+      mammoth
+        .extractRawText({ arrayBuffer: arrayBuffer })
+        .then((result) => {
+          const text = result.value;
+          resolve(text); // Возвращаем содержимое файла
+        })
+        .catch((err) => {
+          console.error("Ошибка при извлечении текста:", err);
+          reject(err); // Отклоняем промис в случае ошибки
+        });
+    };
+    reader.onerror = (err) => {
+      reject(err); // Отклоняем промис в случае ошибки чтения файла
+    };
+    reader.readAsArrayBuffer(file);
+  });
 };
 
 const handleScroll = (event) => {
@@ -110,12 +177,12 @@ const handleKeydown = (event) => {
 };
 
 router.beforeEach((to, from, next) => {
-  if (from.fullPath === route.fullPath && extractedFiles.value.length > 0) {
-    if (
-      confirm(
-        "Вы уверены, что хотите покинуть страницу? Внесенные изменения не сохранятся."
-      )
-    ) {
+  if (extractedFiles.value.length > 0) {
+    const confirmLeave = confirm(
+      "Are you sure you want to leave this page? Unsaved changes will be lost."
+    );
+    if (confirmLeave) {
+      extractedFiles.value = [];
       next();
     } else {
       next(false);

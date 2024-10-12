@@ -1,61 +1,60 @@
 <template>
   <div class="wrapper_form">
     <div class="authorization" v-if="isExistAccount">
-      <p class="label">Почта</p>
+      <p class="label">Email</p>
       <CInput
         class="input"
-        placeholder="Введите почту"
+        placeholder="Enter email"
         v-model="email"
         @keyup.enter="entryAccount"
       />
-      <p class="label">Пароль</p>
+      <p class="label">Password</p>
       <CInput
         class="input"
         type="password"
-        placeholder="Введите пароль"
+        placeholder="Enter password"
         v-model="password"
         @keyup.enter="entryAccount"
       />
     </div>
     <div class="registration" v-else>
-      <p class="label">Логин</p>
+      <p class="label">Username</p>
       <CInput
         class="input"
-        placeholder="Введите логин"
+        placeholder="Enter username"
         v-model="login"
         @keyup.enter="entryAccount"
       />
-      <p class="label">Почта</p>
+      <p class="label">Email</p>
       <CInput
         class="input"
-        placeholder="Введите почту"
+        placeholder="Enter email"
         v-model="email"
         @keyup.enter="entryAccount"
       />
-      <p class="label">Пароль</p>
+      <p class="label">Password</p>
       <CInput
         type="password"
         class="input"
-        placeholder="Введите пароль"
+        placeholder="Enter password"
         v-model="password"
         @keyup.enter="entryAccount"
       />
-      <p class="label">Повтор пароля</p>
-
+      <p class="label">Repeat Password</p>
       <CInput
         type="password"
         class="input"
-        placeholder="Повторите пароль"
+        placeholder="Repeat password"
         v-model="secondPassword"
         @keyup.enter="entryAccount"
       />
     </div>
     <div class="div_btn">
       <CButton class="btn" @click="entryAccount">
-        {{ isExistAccount ? "Войти" : "Создать" }}</CButton
+        {{ isExistAccount ? "Log In" : "Create" }}</CButton
       >
       <p class="change_window" @click="changeWindow()">
-        {{ isExistAccount ? "Создать аккаунт" : "Войти в аккаунт" }}
+        {{ isExistAccount ? "Create an account" : "Log into account" }}
       </p>
     </div>
   </div>
@@ -77,42 +76,42 @@ function changeWindow() {
 
 function entryAccount() {
   if (!isExistAccount.value && login.value === "") {
-    createNotification("Введите логин", "error");
+    createNotification("Please enter a username", "error");
     return;
   }
 
   if (!isExistAccount.value && login.value.length < 5) {
-    createNotification("Длина логина не менее 5 символов", "error");
+    createNotification("Username must be at least 5 characters long", "error");
     return;
   }
 
   if (password.value === "") {
-    createNotification("Введите пароль", "error");
+    createNotification("Please enter a password", "error");
     return;
   }
 
   if (!isExistAccount.value && password.value !== secondPassword.value) {
-    createNotification("Пароли не совпадают", "error");
+    createNotification("Passwords do not match", "error");
     return;
   }
 
   if (!isExistAccount.value && password.value.length < 8) {
-    createNotification("Длина пароля не менее 8 символов", "error");
+    createNotification("Password must be at least 8 characters long", "error");
     return;
   }
 
   if (email.value === "") {
-    createNotification("Введите почту", "error");
+    createNotification("Please enter an email", "error");
     return;
   }
 
   if (!isExistAccount.value && !email.value.includes("@")) {
-    createNotification("Неправильный формат почты!", "error");
+    createNotification("Invalid email format!", "error");
     return;
   }
 
   if (!isExistAccount.value && email.value.length < 5) {
-    createNotification("Длина почты не менее 5 символов", "error");
+    createNotification("Email must be at least 5 characters long", "error");
     return;
   }
 
@@ -139,10 +138,10 @@ async function registration() {
         },
       }
     );
-    createNotification("Успешно зарегистрированы!", "success");
+    createNotification("Successfully registered!", "success");
     authorization();
   } catch (error) {
-    console.error("Ошибка регистрации:", error);
+    console.error("Registration error:", error);
     createNotification(`${error.response.data.detail}`, "error");
   }
 }
@@ -162,13 +161,13 @@ async function authorization() {
         },
       }
     );
-    createNotification("Успешно авторизованы!", "success");
+    createNotification("Successfully authorized!", "success");
     localStorage.setItem("token", response.data.access_token);
     router.push("/").then(() => {
       location.reload();
     });
   } catch (error) {
-    console.error("Ошибка авторизации:", error);
+    console.error("Authorization error:", error);
     createNotification(`${error.response.data.detail}`, "error");
   }
 }
@@ -226,7 +225,6 @@ function fetch() {
 .change_window {
   user-select: none;
   cursor: pointer;
-
   font-size: 15px;
   opacity: 70%;
 }

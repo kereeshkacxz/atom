@@ -1,58 +1,58 @@
 <template>
   <WrapperModal v-if="isOpenModal" @closeModal="close">
     <div v-if="type === 1" class="block">
-      <h2>Смена логина на {{ username }}</h2>
-      <p style="color: var(--main-color70)">Для подтверждения введите пароль</p>
-      <h3>Пароль</h3>
+      <h2>Change Username to {{ username }}</h2>
+      <p style="color: var(--main-color70)">To confirm, enter your password</p>
+      <h3>Password</h3>
       <CInput
         class="input"
         type="password"
-        placeholder="Введите пароль"
+        placeholder="Enter password"
         v-model="oldPassword"
       />
-      <CButton @click="saveChanges">Сохранить изменения</CButton>
+      <CButton @click="saveChanges">Save Changes</CButton>
     </div>
     <div class="block" v-else>
-      <h2>Смена пароля:</h2>
+      <h2>Change Password:</h2>
       <p style="color: var(--main-color70)">
-        Для подтверждения введите старый пароль
+        To confirm, enter your old password
       </p>
-      <h3>Старый пароль</h3>
+      <h3>Old Password</h3>
       <CInput
         class="input"
         type="password"
-        placeholder="Введите старый пароль"
+        placeholder="Enter old password"
         v-model="oldPassword"
       />
-      <h3>Новый пароль</h3>
+      <h3>New Password</h3>
       <CInput
         class="input"
         type="password"
-        placeholder="Введите новый пароль"
+        placeholder="Enter new password"
         v-model="newPassword"
       />
-      <CButton @click="saveChanges">Сохранить изменения</CButton>
+      <CButton @click="saveChanges">Change Password</CButton>
     </div>
   </WrapperModal>
 
   <div class="person-information">
-    <h1>Личный кабинет</h1>
+    <h1>Personal Account</h1>
 
     <div class="block">
       <h3>Email</h3>
       <CInput
         class="input"
-        placeholder="Введите email"
+        placeholder="Enter email"
         v-model="information.email"
         :readonly="true"
       />
     </div>
     <div class="block">
-      <h3>Логин</h3>
-      <CInput class="input" placeholder="Введите логин" v-model="username" />
+      <h3>Username</h3>
+      <CInput class="input" placeholder="Enter username" v-model="username" />
     </div>
-    <CButton @click="open(1)">Сохранить изменения</CButton>
-    <CButton @click="open(2)">Изменить пароль</CButton>
+    <CButton @click="open(1)">Save Changes</CButton>
+    <CButton @click="open(2)">Change Password</CButton>
   </div>
 </template>
 
@@ -99,10 +99,10 @@ async function saveChanges() {
       }
     );
 
-    createNotification(`Изменения успешно сохранены!`, "success");
+    createNotification(`Changes saved successfully!`, "success");
     close(); // Close the modal after saving changes
   } catch (error) {
-    console.error("Ошибка загрузки данных", error);
+    console.error("Error loading data", error);
     createNotification(`${error.response.data.detail}`, "error");
   }
 }
@@ -118,7 +118,7 @@ async function fetchData() {
     information.value = responseInformation.data;
     username.value = information.value.username;
   } catch (error) {
-    console.error("Ошибка загрузки данных", error);
+    console.error("Error loading data", error);
     createNotification(`${error.response.data.detail}`, "error");
   }
 }

@@ -6,7 +6,7 @@
         :curIdx="currentChip"
         @changeIndex="(i) => (currentChip = i)"
       />
-      <CButton @click="addChip">Добавить</CButton>
+      <CButton @click="addChip" class="btn">Add</CButton>
     </div>
     <div class="chip-container">
       <div class="chip" v-for="(chip, index) in chips" :key="chip.id">
@@ -23,8 +23,6 @@
 </template>
 
 <script setup>
-import { ref, computed, defineProps, watch, defineEmits } from "vue";
-
 const props = defineProps({
   modelValue: {
     type: Array,
@@ -102,6 +100,7 @@ watch(
 }
 
 .chip {
+  user-select: none;
   display: inline-flex;
   align-items: center;
   padding: 5px 10px;
@@ -133,5 +132,8 @@ watch(
 img {
   aspect-ratio: 1/1;
   height: 30px;
+}
+.btn {
+  width: 150px;
 }
 </style>

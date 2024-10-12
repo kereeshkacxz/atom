@@ -16,7 +16,7 @@
 const props = defineProps({
   label: {
     type: String,
-    default: "Выберите файлы",
+    default: "Select Files",
   },
   active: {
     type: Boolean,

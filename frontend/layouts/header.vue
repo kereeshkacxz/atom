@@ -69,15 +69,15 @@
     </NuxtLink>
 
     <div v-if="login !== ''" class="dropdown">
-      <button class="dropbtn">Профиль</button>
+      <button class="dropbtn">Profile</button>
       <div class="dropdown-content">
-        <NuxtLink class="btn_page" to="/profile">Личная информация</NuxtLink>
+        <NuxtLink class="btn_page" to="/profile">Personal Information</NuxtLink>
         <NuxtLink class="btn_page" to="/admin" v-if="isAdmin"
-          >Админ-панель</NuxtLink
+          >Admin-panel</NuxtLink
         >
 
         <NuxtLink class="div_login btn_page" id="logout" @click="logout()"
-          >Выйти</NuxtLink
+          >Sign Out</NuxtLink
         >
       </div>
     </div>
@@ -91,7 +91,7 @@
         class="img"
         src="http://localhost:3000/_nuxt/public/people.png"
       />
-      Войти
+      Sign In
     </NuxtLink>
   </div>
 </template>
@@ -245,7 +245,7 @@ window.addEventListener("storage", (event) => {
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  left: -60px;
+  left: -90px;
 }
 
 .dropdown-content a {

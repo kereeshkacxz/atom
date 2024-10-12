@@ -1,142 +1,60 @@
 <template>
-  <WrapperModal v-if="isOpenModal" @closeModal="close">
-    <h2>
-      Вы уверены, что хотите удалить {{ type === 1 ? "объект" : "регламент" }}
-    </h2>
-    <h2>с названием {{ title }}?</h2>
-    <CButton style="margin-top: 20px" @click="condirmDelete">Удалить!</CButton>
-  </WrapperModal>
-  <div class="wrapper" v-if="isAdmin">
-    <div class="wrapper_fodler">
-      <div v-for="folder in folders" :key="folder.id" class="folder">
-        <div class="title" @click="toggleFolder(folder.id)">
-          <div v-if="isOpen(folder.id)" class="icons">
-            <NuxtImg
-              preload
-              class="icon"
-              src="http://localhost:3000/_nuxt/public/minus.png"
-            />
-            <NuxtImg
-              preload
-              class="icon"
-              src="http://localhost:3000/_nuxt/public/open_folder.png"
-            />
-          </div>
-          <div v-else class="icons">
-            <NuxtImg
-              preload
-              class="icon"
-              src="http://localhost:3000/_nuxt/public/plus.png"
-            />
-            <NuxtImg
-              preload
-              class="icon"
-              src="http://localhost:3000/_nuxt/public/folder.png"
-            />
-          </div>
-          {{ folder.name }}
-          <NuxtImg
-            preload
-            class="icon delete-icon"
-            src="http://localhost:3000/_nuxt/public/cross.png"
-            @click.stop="open(1, folder.name, { folder: folder })"
-          />
-        </div>
-        <div class="files" v-if="isOpen(folder.id)">
-          <div v-for="file in folder.files" :key="file.id" class="file">
-            <NuxtImg
-              preload
-              class="icon"
-              src="http://localhost:3000/_nuxt/public/file.png"
-            />
-            {{ file.name }}
-            <NuxtImg
-              preload
-              class="icon delete-icon"
-              src="http://localhost:3000/_nuxt/public/cross.png"
-              @click.stop="open(2, file.name, { file: file, id: folder.id })"
-            />
-          </div>
-        </div>
-      </div>
+  <div class="admin_wrapper" v-if="isAdmin">
+    <div class="folders">
+      <AdminFolders :folders="folders" @open="open" @fetchFiles="fetchFiles" />
     </div>
-    <div class="wrapper_panel">
-      <div class="block">
-        <h2>Добавить новый сертифицируемый объект:</h2>
-        <CInput
-          class="input"
-          placeholder="Введите название объекта"
-          v-model="name"
-        />
-        <CButton @click="addFolder">Добавить объект</CButton>
-      </div>
-      <div class="block">
-        <h2>Добавить файлы регламента:</h2>
-        <SelectableList
-          :items="foldersName"
-          :curIdx="currentFolder"
-          @changeIndex="(i) => (currentFolder = i)"
-        />
-        <FileInput @filesSelected="handleFilesSelected" class="file_uploader" />
-
-        <div class="added-files">
-          <h3>Добавленные файлы:</h3>
-          <div
-            v-for="(file, index) in extractedFiles"
-            :key="index"
-            class="added-file"
-          >
-            <NuxtImg
-              preload
-              class="icon delete-icon"
-              src="http://localhost:3000/_nuxt/public/cross.png"
-              @click.stop="removeFile(index)"
-            />
-            {{ file.name }}
-          </div>
-        </div>
-
-        <CButton @click="addFiles">Добавить регламенты</CButton>
-      </div>
-      <div class="block" v-if="isSuperAdmin">
-        <h2>Добавить нового админа:</h2>
-        <CInput class="input" placeholder="Введите логин" v-model="login" />
-        <CInput
-          class="input"
-          placeholder="Введите пароль"
-          v-model="password"
-          type="password"
-        />
-        <CInput class="input" placeholder="Введите почту" v-model="email" />
-        <CButton @click="addAdmin">Добавить админа</CButton>
-      </div>
+    <div class="panel">
+      <AdminPanel
+        v-if="isAdmin"
+        :folders="folders"
+        :isSuperAdmin="isSuperAdmin"
+        @addFolder="addFolder"
+        @addFiles="addFiles"
+        @addAdmin="addAdmin"
+        :extractedFiles="extractedFiles"
+        @handleFilesSelected="handleFilesSelected"
+      />
     </div>
+
+    <WrapperModal v-if="isOpenModal" @closeModal="close">
+      <h2>
+        Are you sure you want to delete
+        {{ type === 1 ? "the object" : "the regulation" }}
+        with the name
+      </h2>
+      <h2>
+        <span style="color: white">"</span>
+        <span style="color: var(--main-color70)">{{ title }}</span>
+        <span style="color: white">" ?</span>
+      </h2>
+
+      <CButton style="margin-top: 20px" @click="confirmDelete">Delete!</CButton>
+    </WrapperModal>
   </div>
 </template>
 
 <script setup>
+import AdminFolders from "./adminFolders.vue";
+import AdminPanel from "./adminPanel.vue";
+
 const { $api } = useNuxtApp();
+
 const isAdmin =
   localStorage.getItem("admin") === "true" ||
   localStorage.getItem("superadmin") === "true";
+
 const isSuperAdmin = localStorage.getItem("superadmin") === "true";
 
-const extractedFiles = ref([]);
 const folders = ref([]);
-const name = ref("");
-const login = ref("");
-const email = ref("");
-const password = ref("");
-
+const extractedFiles = ref([]);
 const title = ref("");
 const type = ref("");
-const openFolders = ref(new Set());
-const currentFolder = ref(-1);
 const paramsFunc = ref({});
-
 const isOpenModal = ref(false);
 
-function condirmDelete() {
+let createNotification;
+
+function confirmDelete() {
   isOpenModal.value = false;
   if (type.value === 1) {
     removeFolder(paramsFunc.value.folder);
@@ -147,37 +65,20 @@ function condirmDelete() {
 
 function close() {
   isOpenModal.value = false;
-  confirmed.value = false;
   type.value = "";
   title.value = "";
 }
+
 function open(typeNew, titleNew, params) {
   type.value = typeNew;
   title.value = titleNew;
   isOpenModal.value = true;
   paramsFunc.value = params;
 }
-const toggleFolder = (folderId) => {
-  if (openFolders.value.has(folderId)) {
-    openFolders.value.delete(folderId);
-  } else {
-    openFolders.value.add(folderId);
-    fetchFiles(folderId);
-  }
-};
-
-const isOpen = (folderId) => {
-  return openFolders.value.has(folderId);
-};
-
-const removeFile = (index) => {
-  extractedFiles.value.splice(index, 1);
-};
 
 async function removeFolder(folder) {
   try {
-    // Удаляем папку на сервере
-    await $api.delete(`api/v1/folders/${folder.id}`, {
+    await $api.delete(`/api/v1/folders/${folder.id}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -185,66 +86,89 @@ async function removeFolder(folder) {
       },
     });
 
-    // Удаляем папку из локального состояния
     folders.value = folders.value.filter(
       (newFolder) => newFolder.id !== folder.id
     );
-
-    createNotification("Объект успешно удален", "success");
+    createNotification("Object successfully deleted", "success");
   } catch (error) {
-    console.error("Ошибка удаления объекта:", error);
+    console.error("Error deleting object:", error);
     createNotification(`${error.response.data.detail}`, "error");
   }
 }
 
-async function addFiles() {
-  if (currentFolder.value === -1) {
-    createNotification(`Выберите сертифицируемый объект`, "error");
+async function fetchFiles(folderId) {
+  try {
+    const response = await $api.get(`api/v1/files/?folder_id=${folderId}`);
+    const folder = folders.value.find((f) => f.id === folderId);
+    if (folder) {
+      folder.files = response.data || [];
+    }
+  } catch (error) {
+    console.error("Ошибка получения данных:", error);
+    createNotification(error.response?.data?.detail || "Ошибка сети", "error");
+  }
+}
+
+async function deleteFile(file, folderId) {
+  try {
+    await $api.delete(`/api/v1/files/${file.id}`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+
+    const folder = folders.value.find((folder) => folder.id === folderId);
+    folder.files = folder.files.filter((fileNew) => fileNew.id !== file.id);
+    createNotification("File successfully deleted", "success");
+  } catch (error) {
+    console.error("Error deleting file:", error);
+    createNotification(`${error.response.data.detail}`, "error");
+  }
+}
+
+async function addFiles(currentFolder) {
+  if (currentFolder === -1) {
+    createNotification("Please select a certifiable object", "error");
     return;
   }
   if (extractedFiles.value.length === 0) {
-    createNotification(`Выберите файлы`, "error");
+    createNotification("Please select files", "error");
     return;
   }
 
   try {
-    const folderId = folders.value[currentFolder.value].id; // Получаем ID текущей папки
+    const folderId = folders.value[currentFolder].id;
 
     for (const file of extractedFiles.value) {
       const formData = new FormData();
-      formData.append("file", file); // Добавляем файл в FormData
+      formData.append("file", file);
 
-      await $api.post(`api/v1/files/?folder_id=${folderId}`, formData, {
+      await $api.post(`/api/v1/files/?folder_id=${folderId}`, formData, {
         headers: {
           Accept: "application/json",
-          "Content-Type": "multipart/form-data", // Указываем, что отправляем FormData
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
     }
-
     await fetchFiles(folderId);
-
-    if (!isOpen(folderId)) {
-      toggleFolder(folderId);
-    }
-
-    name.value = "";
-    createNotification("Файлы успешно добавлены", "success");
+    createNotification("Files successfully added", "success");
   } catch (error) {
-    console.error("Ошибка добавления файлов:", error);
+    console.error("Error adding files:", error);
     createNotification(`${error.response.data.detail}`, "error");
   }
 }
 
-async function addFolder() {
-  if (name.value === "") {
-    createNotification(`Наименование объекта не может быть пустым.`, "error");
+async function addFolder(name) {
+  if (name === "") {
+    createNotification("The name of the object cannot be empty.", "error");
     return;
   }
   try {
     const response = await $api.post(
-      `api/v1/folders/?folder_name=${name.value}`,
+      `/api/v1/folders/?folder_name=${name}`,
       {},
       {
         headers: {
@@ -257,82 +181,37 @@ async function addFolder() {
 
     folders.value.push({
       id: response.data.id,
-      name: name.value,
+      name: name,
       files: [],
     });
 
-    name.value = "";
-
-    createNotification("Папка успешно добавлена", "success");
+    createNotification("Folder successfully added", "success");
   } catch (error) {
-    console.error("Ошибка создания объекта:", error);
+    console.error("Error creating object:", error);
     createNotification(`${error.response.data.detail}`, "error");
   }
 }
 
-async function fetchFiles(id) {
-  try {
-    const responseFiles = await $api.get(`api/v1/files/?folder_id=${id}`, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-
-    const folder = folders.value.find((folder) => folder.id === id);
-    if (!folder.files) {
-      folder.files = [];
-    }
-    folder.files = responseFiles.data;
-  } catch (error) {
-    console.error("Ошибка получения данных:", error);
-    createNotification(`${error.response.data.detail}`, "error");
+async function addAdmin(params) {
+  if (!params.username) {
+    createNotification("The username cannot be empty.", "error");
+    return;
   }
-}
-
-async function deleteFile(file, folderId) {
-  try {
-    await $api.delete(`api/v1/files/${file.id}`, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-
-    const folder = folders.value.find((folder) => folder.id === folderId);
-    folder.files = folder.files.filter((fileNew) => fileNew.id !== file.id);
-
-    createNotification("Файл успешно удален", "success");
-  } catch (error) {
-    console.error("Ошибка удаления файла:", error);
-    createNotification(`${error.response.data.detail}`, "error");
+  if (!params.password) {
+    createNotification("The password cannot be empty.", "error");
+    return;
   }
-}
-
-async function fetchData() {
-  try {
-    const responseFolders = await $api.get(`api/v1/folders`, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-    folders.value = responseFolders.data;
-  } catch (error) {
-    console.error("Ошибка получения данных:", error);
-    createNotification(`${error.response.data.detail}`, "error");
+  if (!params.email) {
+    createNotification("The email cannot be empty.", "error");
+    return;
   }
-}
-
-async function addAdmin() {
   try {
     const response = await $api.post(
       `api/v1/user/register/admin`,
       {
-        username: login.value,
-        password: password.value,
-        email: email.value,
+        username: params.username,
+        password: params.password,
+        email: params.email,
         type: "admin",
       },
       {
@@ -350,112 +229,64 @@ async function addAdmin() {
   }
 }
 
+async function fetchData() {
+  try {
+    const responseFolders = await $api.get(`/api/v1/folders`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    folders.value = responseFolders.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    createNotification(`${error.response.data.detail}`, "error");
+  }
+}
+
+function fetch() {
+  createNotification = inject("createNotification");
+}
+
 const handleFilesSelected = (files) => {
   extractedFiles.value = files.map((file) => {
     return file;
   });
 };
 
-const foldersName = computed(() => {
-  return folders.value.map((folder) => folder.name);
-});
 onMounted(() => {
   fetchData();
   fetch();
 });
-
-let createNotification;
-
-function fetch() {
-  createNotification = inject("createNotification");
-}
 </script>
 
 <style>
-.folder {
-  text-align: left;
-  user-select: none;
-  margin: 5px 0;
-}
-.files {
-  margin-left: 40px;
-}
-.file {
-  gap: 5px;
+.admin_wrapper {
   display: flex;
-  justify-content: start;
-  align-items: center;
-  margin: 4px 0;
-}
-.title {
-  cursor: pointer;
-
-  gap: 5px;
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-}
-.wrapper {
   gap: 40px;
   width: 100%;
-  display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+.folders {
+  width: 40%;
+}
+.panel {
+  width: 60%;
+}
+.modal {
+  color: var(--main--color);
 }
 @media (max-width: 768px) {
-  /* Замените 768px на желаемую ширину для мобильных устройств */
-  .wrapper {
-    flex-direction: column; /* Изменяем на column для мобильных устройств */
+  .admin_wrapper {
+    flex-direction: column;
   }
-}
-.icon {
-  aspect-ratio: 1/1;
-  height: 20px;
-}
-.icons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.delete-icon {
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.delete-icon:hover {
-  opacity: 70%;
-  transform: scale(140%);
-}
-.input {
-  width: 100%;
-}
-.block {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-.wrapper_panel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
-}
-h2 {
-  color: var(--main-color70);
-}
-.added-files {
-  margin-top: 10px;
-}
-.added-file {
-  text-align: start;
-  max-width: 500px;
-  gap: 10px;
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  margin: 5px 0;
+  .folders {
+    width: 100%;
+  }
+  .panel {  
+    width: 100%;
+  }
 }
 </style>
