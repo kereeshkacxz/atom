@@ -25,6 +25,7 @@ sqlalchemy-utils = "^0.41.2"
 pydantic = {extras = ["email"], version = "^2.9.2"}
 bs4 = "^0.0.2"
 apscheduler = "^3.10.4"
+pymupdf = "^1.24.11"
 
 [tool.poetry.dev-dependencies]
 autoflake = "^1.4"

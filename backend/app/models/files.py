@@ -13,3 +13,7 @@ class FilesTable(SQLModel, table=True):
     name: str = Field(nullable=False)
     folder_id: uuid.UUID = Field(foreign_key="folderstable.id")
     created_at: datetime = Field(nullable=False, default=datetime.now())
+
+class AssayTextModel(SQLModel):
+    text: str = Field(nullable=False)
+    file_id: uuid.UUID = Field(foreign_key="filestable.id")
