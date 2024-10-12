@@ -88,6 +88,7 @@ const addFolder = () => {
 
 const addFiles = () => {
   emit("addFiles", currentFolder.value);
+  currentFolder.value = -1;
 };
 
 const addAdmin = () => {
@@ -120,6 +121,7 @@ const handleFilesSelected = (files) => {
   justify-content: center;
   align-items: center;
   gap: 10px;
+  width: 500px;
 }
 .input {
   width: 100%;

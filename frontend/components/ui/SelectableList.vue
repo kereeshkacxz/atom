@@ -105,6 +105,17 @@ watch(
   },
   { deep: true }
 );
+watch(
+  () => props.curIdx,
+  (newCurIdx) => {
+    currentIndex.value = newCurIdx;
+    if (newCurIdx >= 0 && newCurIdx < props.items.length) {
+      searchQuery.value = props.items[newCurIdx];
+    } else {
+      searchQuery.value = "";
+    }
+  }
+);
 </script>
 
 <style scoped>
