@@ -1,13 +1,13 @@
 <template>
   <div class="button_header">
     <CButton
-      class="btn"
+      class="btn_check"
       :class="{ active: index === 0 }"
       @click="setItemIndex(0)"
       >Check Requirement</CButton
     >
     <CButton
-      class="btn"
+      class="btn_create"
       :class="{ active: index === 1 }"
       @click="setItemIndex(1)"
       >Create Requirement</CButton
@@ -51,7 +51,8 @@ watch(
   }
 }
 
-.btn {
+.btn_check,
+.btn_create {
   border-radius: 10px;
   flex: 1;
 }

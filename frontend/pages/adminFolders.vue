@@ -51,7 +51,9 @@
         </div>
       </div>
     </div>
-    <CButton @click="confirmRefresh">Refresh Model</CButton>
+    <div class="btn_wrp">
+      <CButton @click="confirmRefresh" class="btn">Refresh Model</CButton>
+    </div>
   </div>
 </template>
 
@@ -138,5 +140,15 @@ const confirmDeleteFile = (file, folderId) => {
 .delete-icon:hover {
   opacity: 70%;
   transform: scale(140%);
+}
+.btn {
+  margin-top: 20px;
+  width: 250px;
+}
+.btn_wrp {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

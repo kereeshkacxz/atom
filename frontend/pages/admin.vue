@@ -92,6 +92,17 @@ function open(typeNew, titleNew, params) {
 }
 
 async function removeFolder(folder) {
+  const foundFolder = folders.value.find(
+    (newFolder) => newFolder.id === folder.id
+  );
+
+  const files = foundFolder ? foundFolder.files : [];
+
+  if (files.length > 0) {
+    createNotification("The folder must be empty to delete it.", "error");
+    return;
+  }
+
   try {
     await $api.delete(`/api/v1/folders/${folder.id}`, {
       headers: {
