@@ -12,6 +12,15 @@ app = FastAPI()
 
 # Загрузка модели и токенизатора
 model_name = "model"  # Убедитесь, что это правильный путь к сохраненной модели
+
+# Проверяем, существует ли модель
+if not os.path.exists(model_name):
+    print("Модель не найдена. Начинаем обучение...")
+    # Запускаем обучение модели
+    train_model_func('/data')  # Укажите путь к директории с вашими текстовыми файлами
+    print("Обучение завершено.")
+
+# Теперь загружаем модель и токенизатор
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name)
 
