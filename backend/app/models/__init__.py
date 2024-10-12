@@ -1,7 +1,7 @@
 from .registration import RegistrationAdmin, RegistrationForm, RegistrationSuccess
 from .token import Token, TokenData
 from .user import AuthSchema, UserSchema, UserTable
-from .files import FilesTable, FoldersTable
+from .files import FilesTable, FoldersTable, AssayTextModel
 
 
 
@@ -16,4 +16,5 @@ __all__ = [
     "AuthSchema",
     "FilesTable",
     "FoldersTable",
+    "AssayTextModel",
 ]
