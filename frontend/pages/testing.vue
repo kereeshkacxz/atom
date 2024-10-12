@@ -5,11 +5,19 @@
       <FileInput @filesSelected="handleFilesSelected" class="file_uploader" />
 
       <div class="slider" v-if="extractedFiles.length > 0">
-        <button class="arrow left-arrow" @click="scrollLeft">&#9664;</button>
+        <button
+          class="arrow left-arrow"
+          @click="scrollLeft"
+          :class="{
+            disabled: isLeftArrowDisabled,
+          }"
+        >
+          &#9664;
+        </button>
 
         <div class="scrollmenu" @wheel="handleScroll" ref="scrollMenu">
           <a
-            v-for="(file, index) in extractedFiles"
+            v-for="(fileObject, index) in extractedFiles"
             :key="index"
             @click="selectItem(index)"
             :class="{
@@ -17,11 +25,19 @@
               active: selectedIndex === index && !errorChips.includes(index),
             }"
           >
-            {{ file.name }}
+            {{ fileObject.file.name }}
           </a>
         </div>
 
-        <button class="arrow right-arrow" @click="scrollRight">&#9654;</button>
+        <button
+          class="arrow right-arrow"
+          @click="scrollRight"
+          :class="{
+            disabled: isRightArrowDisabled,
+          }"
+        >
+          &#9654;
+        </button>
       </div>
 
       <ChipBox
@@ -29,14 +45,15 @@
         v-model="selectedChips[selectedIndex]"
         :availableChips="availableChips"
       />
-      <CButton class="btn" v-if="extractedFiles.length > 0" @click="validation"
-        >Сгенерировать отчеты</CButton
-      >
+      <CButton class="btn" v-if="extractedFiles.length > 0" @click="validation">
+        Сгенерировать отчеты
+      </CButton>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, computed, onMounted, onBeforeUnmount, inject } from "vue";
 import mammoth from "mammoth";
 const { $api } = useNuxtApp();
 const curTab = ref(0);
@@ -52,6 +69,16 @@ const selectedIndex = ref(null);
 const selectedChips = ref([]);
 const availableChips = ref([]);
 const errorChips = ref([]);
+
+const isLeftArrowDisabled = computed(
+  () => selectedIndex.value === 0 || extractedFiles.value.length === 0
+);
+const isRightArrowDisabled = computed(
+  () =>
+    selectedIndex.value === extractedFiles.value.length - 1 ||
+    extractedFiles.value.length === 0
+);
+
 async function fetchData() {
   try {
     const responseFolders = await $api.get(`api/v1/folders`, {
@@ -66,7 +93,6 @@ async function fetchData() {
     createNotification(`${error.response.data.detail}`, "error");
   }
 }
-
 function validation() {
   errorChips.value = [];
   selectedChips.value.map((selected, index) => {
@@ -80,46 +106,84 @@ function validation() {
 }
 
 async function testing() {
-  createNotification(
-    "All files have been checked, and a report has been generated!",
-    "success"
-  );
+  try {
+    // const responseFolders = await $api.get(`api/v1/analyze_list `, {
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    //   params: {
+    //     list: extractedFiles.map((fileObject, index) => {
+    //       return {
+    //         text: fileObject.content,
+    //         folders_id: selectedChips.value[index].map((chip) => {
+    //           return chip.id;
+    //         }),
+    //       };
+    //     }),
+    //   },
+    // });
+    // availableChips.value = responseFolders.data;
+    console.log({
+      list: extractedFiles.value.map((fileObject, index) => {
+        return {
+          text: fileObject.content,
+          folders_id: selectedChips.value[index].map((chip) => {
+            return chip.id;
+          }),
+        };
+      }),
+    });
+    createNotification(
+      "All files have been checked, and a report has been generated!",
+      "success"
+    );
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    createNotification(`${error.response.data.detail}`, "error");
+  }
 }
 
 const handleFilesSelected = (files) => {
-  extractedFiles.value = files.map((file) => {
-    const match = file.name.match(/Use Case CF_(.+?)(\.[^.]+)?$/);
-    return file;
-  });
-  selectedIndex.value = 0;
-  selectedChips.value = new Array(extractedFiles.value.length).fill([]);
+  extractedFiles.value = [];
+  selectedChips.value = [];
 
-  const fileReadPromises = extractedFiles.value.map((file) => {
+  const fileReadPromises = files.map((file) => {
     if (file.type === "text/plain") {
       return loadTextFileContent(file)
         .then((content) => {
-          return { file, content };
+          if (content.length > 0) {
+            extractedFiles.value.push({ file: file, content: content });
+            selectedChips.value.push([]); // Инициализируем пустой массив для выбранных чипов
+            const names = parserName(file.name, content, availableChips.value);
+            selectedChips.value[selectedChips.value.length - 1] = names; // Сохраняем имена
+          }
         })
         .catch((error) => {
           createNotification(`Ошибка чтения файла: ${file.name}`, "error");
-          return { file, content: "" };
         });
     } else {
       return loadFileContent(file)
         .then((content) => {
-          return { file, content };
+          if (content.length > 0) {
+            extractedFiles.value.push({ file: file, content: content });
+            selectedChips.value.push([]); // Инициализируем пустой массив для выбранных чипов
+            const names = parserName(file.name, content, availableChips.value);
+            selectedChips.value[selectedChips.value.length - 1] = names; // Сохраняем имена
+          }
         })
         .catch((error) => {
           createNotification(`Ошибка чтения файла: ${file.name}`, "error");
-          return { file, content: "" };
         });
     }
   });
-  Promise.all(fileReadPromises).then((results) => {
-    results.forEach(({ file, content }, index) => {
-      const names = parserName(file.name, content, availableChips.value);
-      selectedChips.value[index] = names;
-    });
+
+  Promise.all(fileReadPromises).then(() => {
+    if (extractedFiles.value.length > 0) {
+      selectedIndex.value = 0; // Устанавливаем индекс выбранного элемента, если есть файлы
+    } else {
+      selectedIndex.value = null; // Сбрасываем индекс, если нет файлов
+    }
   });
 };
 
@@ -321,5 +385,9 @@ div.scrollmenu a.active {
 .error {
   background-color: var(--unsuccess-color);
   color: #ffffff;
+}
+.disabled {
+  color: #777;
+  cursor: default;
 }
 </style>

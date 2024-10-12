@@ -6,7 +6,7 @@
         :curIdx="currentChip"
         @changeIndex="(i) => (currentChip = i)"
       />
-      <CButton @click="addChip" class="btn">Add</CButton>
+      <CButton @click="addChip" class="btnChipAdded">Add</CButton>
     </div>
     <div class="chip-container">
       <div class="chip" v-for="(chip, index) in chips" :key="chip.id">
@@ -34,14 +34,17 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits();
+const emit = defineEmits(["deleteChip", "update:modelValue"]);
 const currentChip = ref(-1);
-
 const chips = ref([...props.modelValue]);
 
 const removeChip = (index) => {
-  chips.value.splice(index, 1);
-  emit("update:modelValue", chips.value);
+  const chipToRemove = chips.value[index];
+  if (chipToRemove) {
+    chips.value.splice(index, 1);
+    emit("update:modelValue", chips.value);
+    emit("deleteChip", chipToRemove);
+  }
 };
 
 const addChip = () => {
@@ -59,13 +62,11 @@ const availableChips = computed(() => {
     (chip) => !chips.value.some((existingChip) => existingChip.id === chip.id)
   );
 });
+
 const availableChipsNamed = computed(() => {
-  return props.availableChips
-    .filter(
-      (chip) => !chips.value.some((existingChip) => existingChip.id === chip.id)
-    )
-    .map((chip) => chip.name);
+  return availableChips.value.map((chip) => chip.name);
 });
+
 watch(
   () => props.modelValue,
   (newValue) => {
@@ -133,7 +134,8 @@ img {
   aspect-ratio: 1/1;
   height: 30px;
 }
-.btn {
+
+.btnChipAdded {
   width: 150px;
 }
 </style>

@@ -1,14 +1,16 @@
 export function parserName(fileName, fileContent, availableChipes) {
   const result = new Set();
-
-  availableChipes.forEach((chip) => {
-    if (fileName.includes(chip.name)) result.add(chip);
-  });
+  if (fileName)
+    availableChipes.forEach((chip) => {
+      if (fileName.toLowerCase().includes(chip.name.toLowerCase()))
+        result.add(chip);
+    });
   const lines = fileContent.split("\n");
 
   lines.forEach((line) => {
     availableChipes.forEach((chip) => {
-      if (line.includes(chip.name)) result.add(chip);
+      if (line.toLowerCase().includes(chip.name.toLowerCase()))
+        result.add(chip);
     });
   });
 
