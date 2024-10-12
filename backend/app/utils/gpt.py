@@ -1,47 +1,55 @@
-import requests
+import httpx
 import json
+import asyncio  # Импортируем asyncio для использования sleep
 from app.config import getSettings
+from fastapi import HTTPException
 
-async def sendMessage(api_key, url, instruction, temperature, messages):
+async def sendMessage(url, messages):
     """
     Отправляет сообщение через API.
     
     Args:
-        api_key (str): API-ключ.
         url (str): URL API-endpoint.
-        instruction (str): Инструкция для API.
-        temperature (float): Температура для генерации ответа.
         messages (list): Список сообщений в формате, ожидаемом API.
     
     Returns:
         dict: Ответ API.
     """
     data = {
-        "instruction": instruction,
-        "temperature": temperature,
-        "messages": messages
+        "messages":  messages
     }
     
     headers = {
-        "x-api-key": api_key
+        "Content-Type": "application/json",
     }
     
-    response = requests.post(url, json=data, headers=headers)
-    response.raise_for_status()
-    
-    return response.json()
+    async with httpx.AsyncClient() as client:
 
-async def assayText(user_text: str, requirment_text: str):
-    api_key = getSettings().API_KEY
+        try:
+            response = await client.post(url, headers=headers, json=data, timeout=40)
+            response.raise_for_status()
+        except httpx.ReadTimeout:
+            raise HTTPException(status_code=504, detail="Request timed out")
+        except httpx.HTTPStatusError as e:
+            raise HTTPException(status_code=e.response.status_code, detail=str(e))
+
+
+    
+    try:
+        return response.json() 
+    except ValueError as e:
+        raise HTTPException(status_code=500, detail=e)
+
+async def assayText(user_text: str, requirment_texts: list[str]):
     url = getSettings().URL
 
     instruction = """
-                Я имею документацию и требования к ней, мне нужно проверить,
-                соответсвует ли документация требованиям. Выведи результат в формате JSON.
-                Формат ответа:
+                The data consists of: Requirements and documents.
+                You need to match the document to the requirements and understand whether it meets or not
+                Response format:
                 {
-                    "result": "Требования соответсвуют" или "Требования не соответсвуют",
-                    "description": "Описание",
+                    "result": "Do not match" or "Match",
+                    "description": "Description",
                 }
             """
 
@@ -52,20 +60,28 @@ async def assayText(user_text: str, requirment_text: str):
         },
         {
             "role": "user",
-            "content": f""" Документация:
+            "content": f""" Document:
                 {user_text}
-            """
-        },
-        {
-            "role": "user",
-            "content": f""" Требования:
-                {requirment_text}
             """
         }
     ]
 
-    response = await sendMessage(api_key, url, '', 0.1, messages)
-    json_string = response['content'][0]['text'].replace('\n', '').replace('\\', '')
-    data = json.loads(json_string)
-    return data
+    for text in requirment_texts:
+        messages.append(
+            {
+                "role": "user",
+                "content": f""" Requirement:
+                    {text}
+                """
+            }
+        )
 
+    # Добавляем задержку в 5 секунд
+    await asyncio.sleep(5)
+
+    response = await sendMessage(url, messages)
+    
+    # # Обработка ответа
+    # json_string = response['generated_text']['content'].replace('\n', '').replace('\\', '')
+    # data = json.loads(json_string)
+    return response

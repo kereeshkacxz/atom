@@ -16,4 +16,4 @@ class FilesTable(SQLModel, table=True):
 
 class AssayTextModel(SQLModel):
     text: str = Field(nullable=False)
-    file_id: uuid.UUID = Field(foreign_key="filestable.id")
+    list: list[uuid.UUID]
