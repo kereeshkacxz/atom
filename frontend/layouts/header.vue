@@ -118,7 +118,6 @@ async function fetchData() {
     localStorage.setItem("superadmin", response.data.type === "superadmin");
     isAdmin.value =
       response.data.type === "admin" || response.data.type === "superadmin";
-    console.log(isAdmin.value);
   } catch (error) {
     console.error(error);
     logout();
@@ -170,7 +169,7 @@ window.addEventListener("storage", (event) => {
 .logo_text {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   gap: 10px;
   width: 200px;

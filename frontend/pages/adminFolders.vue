@@ -51,6 +51,7 @@
         </div>
       </div>
     </div>
+    <CButton @click="confirmRefresh">Refresh Model</CButton>
   </div>
 </template>
 
@@ -62,7 +63,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["removeFolder", "deleteFile", "fetchFiles"]);
+const emit = defineEmits(["removeFolder", "deleteFile", "fetchFiles", "open"]);
 
 const openFolders = ref(new Set());
 
@@ -77,6 +78,10 @@ const toggleFolder = async (folderId) => {
     openFolders.value.add(folderId);
     emit("fetchFiles", folderId);
   }
+};
+
+const confirmRefresh = () => {
+  emit("open", 3, "", {});
 };
 
 const confirmRemoveFolder = (folder) => {

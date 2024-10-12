@@ -34,7 +34,7 @@ const searchQuery = ref("");
 const currentIndex = ref(props.curIdx);
 const isOpen = ref(false);
 const filteredItems = ref([]);
-const currentLabel = ref("Выбрать");
+const currentLabel = ref("Choose");
 const dropdown = ref(null);
 const componentKey = ref(0);
 

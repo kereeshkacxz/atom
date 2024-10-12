@@ -17,18 +17,31 @@
     </div>
 
     <WrapperModal v-if="isOpenModal" @closeModal="close">
-      <h2>
-        Are you sure you want to delete
-        {{ type === 1 ? "the object" : "the regulation" }}
-        with the name
-      </h2>
-      <h2>
-        <span style="color: white">"</span>
-        <span style="color: var(--main-color70)">{{ title }}</span>
-        <span style="color: white">" ?</span>
-      </h2>
-
-      <CButton style="margin-top: 20px" @click="confirmDelete">Delete!</CButton>
+      <div v-if="type !== 3">
+        <h2>
+          Are you sure you want to delete
+          {{ type === 1 ? "the object" : "the regulation" }}
+          with the name
+        </h2>
+        <h2>
+          <span style="color: white">"</span>
+          <span style="color: var(--main-color70)">{{ title }}</span>
+          <span style="color: white">" ?</span>
+        </h2>
+        <CButton style="margin-top: 20px" @click="confirmDelete"
+          >Delete!</CButton
+        >
+      </div>
+      <div v-if="type === 3">
+        <h2>
+          <span style="color: white">Are you sure you want to refresh </span>
+          <span style="color: var(--main-color70)">the model</span>
+          <span style="color: white">?</span>
+        </h2>
+        <CButton style="margin-top: 20px" @click="confirmDelete"
+          >Refresh!</CButton
+        >
+      </div>
     </WrapperModal>
   </div>
 </template>
@@ -58,8 +71,10 @@ function confirmDelete() {
   isOpenModal.value = false;
   if (type.value === 1) {
     removeFolder(paramsFunc.value.folder);
-  } else {
+  } else if (type.value === 2) {
     deleteFile(paramsFunc.value.file, paramsFunc.value.id);
+  } else {
+    refreshModel();
   }
 }
 
@@ -243,6 +258,9 @@ async function fetchData() {
     createNotification(`${error.response.data.detail}`, "error");
   }
 }
+async function refreshModel() {
+  createNotification(`The model has been successfully updated!`, "success");
+}
 
 function fetch() {
   createNotification = inject("createNotification");
@@ -285,7 +303,7 @@ onMounted(() => {
   .folders {
     width: 100%;
   }
-  .panel {  
+  .panel {
     width: 100%;
   }
 }

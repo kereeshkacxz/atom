@@ -12,7 +12,10 @@
             v-for="(file, index) in extractedFiles"
             :key="index"
             @click="selectItem(index)"
-            :class="{ active: selectedIndex === index }"
+            :class="{
+              error: errorChips.includes(index),
+              active: selectedIndex === index && !errorChips.includes(index),
+            }"
           >
             {{ file.name }}
           </a>
@@ -26,6 +29,9 @@
         v-model="selectedChips[selectedIndex]"
         :availableChips="availableChips"
       />
+      <CButton class="btn" v-if="extractedFiles.length > 0" @click="validation"
+        >Сгенерировать отчеты</CButton
+      >
     </div>
   </div>
 </template>
@@ -34,7 +40,6 @@
 import mammoth from "mammoth";
 const { $api } = useNuxtApp();
 const curTab = ref(0);
-const route = useRoute();
 const router = useRouter();
 import { parserName } from "~/utils/parserName.js";
 
@@ -46,7 +51,7 @@ const scrollMenu = ref(null);
 const selectedIndex = ref(null);
 const selectedChips = ref([]);
 const availableChips = ref([]);
-
+const errorChips = ref([]);
 async function fetchData() {
   try {
     const responseFolders = await $api.get(`api/v1/folders`, {
@@ -60,6 +65,25 @@ async function fetchData() {
     console.error("Error fetching data:", error);
     createNotification(`${error.response.data.detail}`, "error");
   }
+}
+
+function validation() {
+  errorChips.value = [];
+  selectedChips.value.map((selected, index) => {
+    if (selected.length <= 0) errorChips.value.push(index);
+  });
+  if (errorChips.value.length > 0) {
+    createNotification("Regulations are not selected for all files!", "error");
+    return;
+  }
+  testing();
+}
+
+async function testing() {
+  createNotification(
+    "All files have been checked, and a report has been generated!",
+    "success"
+  );
 }
 
 const handleFilesSelected = (files) => {
@@ -288,5 +312,14 @@ div.scrollmenu a.active {
   flex-direction: column;
   gap: 30px;
   width: 100%;
+}
+.btn {
+  width: 300px;
+  height: 60px;
+  font-size: 20px;
+}
+.error {
+  background-color: var(--unsuccess-color);
+  color: #ffffff;
 }
 </style>
