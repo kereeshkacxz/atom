@@ -1,0 +1,1210 @@
+E/ECE/324
+
+Rev.1/add.27
+
+E/ECE/TRANS/505A
+
+31 October 1972
+
+AGREEMENT
+
+
+
+CONCERNING THE ADOPTION OF UNIFORM CONDITIONS OF APPROVAL
+
+AND RECIPROCAL RECOGNITION OF APPROVAL
+
+FOR MOTOR VEHICLE EQUIPMENT AND PARTS
+
+done at Geneva on 20 March 1958
+
+---------------
+
+Addendum 27: Regulation No. 28 to be annexed to the Agreement UNIFORM PROVISIONS CONCERNING THE APPROVAL OF
+
+AUDIBLE WARNING DEVICES AND OF MOTOR VEHICLES WITH REGARD
+
+TO THEIR AUDIBLE SIGNALS
+
+________________________________
+
+UNITED NATIONS
+
+GE.72-23614
+
+E/ECE/324
+
+Add.10/Rev.1
+
+E/ECE/TRANS/505 A
+
+Regulation No. 11
+
+page i
+
+Regulation No. 28
+
+UNIFORM PROVISIONS CONCERNING THE APPROVAL OF
+
+AUDIBLE WARNING DEVICES AND OF MOTOR VEHICLES WITH REGARD
+
+TO THEIR AUDIBLE SIGNALS
+
+CONTENTS
+
+REGULATION
+
+Page
+
+1.
+
+Scope
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+1
+
+I
+
+AUDIBLE WARNING DEVICES
+
+2.
+
+Definitions
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+1
+
+3.
+
+Application for approval
+
+. . . . . . . . . . . . . . . . . . . . . .
+
+1
+
+4.
+
+Markings
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+2
+
+5.
+
+Approval
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+2
+
+6.
+
+Specifications
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+3
+
+7.
+
+Modification of the type of the audible warning device
+
+. . . . . . .
+
+6
+
+8.
+
+Conformity of production
+
+. . . . . . . . . . . . . . . . . . . . . .
+
+6
+
+9.
+
+Penalties for non-conformity of production
+
+. . . . . . . . . . . . .
+
+6
+
+10.
+
+Production discontinued
+
+. . . . . . . . . . . . . . . . . . . . . .
+
+6
+
+II
+
+AUDIBLE SIGNALS FOR MOTOR VEHICLES
+
+11.
+
+Definitions
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+7
+
+12.
+
+Application for approval
+
+. . . . . . . . . . . . . . . . . . . . . .
+
+7
+
+13.
+
+Approval
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+7
+
+14.
+
+Specifications
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+8
+
+15.
+
+Modification of the type of the audible warning device
+
+. . . . . . .
+
+9
+
+E/ECE/324
+
+Rev.1/Add.27
+
+E/ECE/TRANS/505 A
+
+Regulation No. 28
+
+page ii
+
+16.
+
+Conformity of production
+
+. . . . . . . . . . . . . . . . . . . . . .
+
+9
+
+17.
+
+Penalties for non-conformity of production
+
+. . . . . . . . . . . . .
+
+9
+
+18.
+
+Names and addresses of technical services responsible for conducting approval tests and administrative departments
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+10
+
+ANNEXES
+
+Annex 1
+
+-
+
+Communication concerning the approval (or refusal or withdrawal of approval) of a type of audible warning device for motor vehicles, pursuant to Regulation No. 28
+
+Annex 2
+
+-
+
+Communication concerning the approval (or refusal or withdrawal of approval) of a type of audible warning device for motor vehicles, pursuant to Regulation No. 28
+
+Annex 3
+
+-
+
+I.
+
+Arrangement of the approval mark of the audible warning device
+
+2.
+
+Arrangement of the approval mark of a vehicle with regard to its audible signals
+
+*
+
+*
+
+*
+
+E/ECE/324
+
+Rev.1/Add.27
+
+E/ECE/TRANS/505 A
+
+Regulation No. 28
+
+page 1
+
+Regulation No. 28
+
+UNIFORM PROVISIONS CONCERNING TEH APPROVAL OF AUDIBLE WARNING DEVICES AND OF
+
+MOTOR VEHICLES WITH REGARD TO THEIR AUDIBLE SIGNALS
+
+1.
+
+SCOPE
+
+This Regulation applies to:
+
+I.
+
+audible warning devices, operated by direct current or compressed air, which are intended for fitting to motor vehicles with the exception of motor cycles,
+
+II
+
+the audible signals of motor vehicles, with the exception of motor cycles.
+
+*
+
+*
+
+*
+
+I. AUDIBLE WARNING DEVICES
+
+2.
+
+DEFINITIONS
+
+For the purposes of this Regulation, audible warning devices of different "types" shall be understood to mean devices essentially different from one another with respect to such matters as: 2.1.
+
+trade name or mark;
+
+2.2.
+
+principles of operation;
+
+2.3.
+
+outer shape of case;
+
+2.4.
+
+shape and dimensions of diaphragm; 2.5.
+
+shape or kind of sound outlet;
+
+2.6.
+
+rated sound frequency;
+
+2.7.
+
+rated supply voltage;
+
+2.8.
+
+for devices supplied directly from an external compressed air source, rated operating pressure.
+
+3.
+
+APPLICATION FOR APPROVAL
+
+The application for approval of a type of audible warning device shall be submitted by the holder of the trade name or mark or by his duly accredited representative.
+
+3.2.
+
+It shall be accompanied by the following documents, in triplicate, giving the following particulars: 3.2.1.
+
+a description of the type of audible warning device, paying particular attention to the points mentioned in paragraph 2; 3.2.2. a drawing showing, inter alia, the warning device in cross section;
+
+E/ECE/324
+
+Rev.1/Add.27
+
+E/ECE/TRANS/505 A
+
+Regulation No. 28
+
+page 2
+
+3.2.3.
+
+a list of the components used in manufacture, duly identified, with an indication of the materials used; 3.2.4.
+
+detailed drawings of all the components used in manufacture. The drawings shall show the place provided for the approval number in relation to the circle of the approval mark.
+
+3.3.
+
+In addition, the application for approval shall be accompanied by two samples of the type of warning device.
+
+4.
+
+MARKINGS
+
+4.1.
+
+The samples of the audible warning devices submitted for approval shall bear the manufacturer's trade name or mark; this mark must be clearly legible and indelible.
+
+4.2.
+
+Each sample shall have a space of adequate dimensions for the approval mark; this space shall be indicated in the drawing referred to in paragraph 3.2.2.
+
+5.
+
+APPROVAL
+
+5.1.
+
+If the samples submitted for approval conform to the provisions of paragraphs 6. and 7. below, approval for this type of warning device shall be granted.
+
+5.2.
+
+Each type approved shall be assigned an approval number. The same Contracting Party shall not assign this number to another type of audible warning device.
+
+5.3.
+
+The same approval number may be assigned to types of warning device differing only with respect to rated voltage, rated frequency or, for the devices mentioned in paragraph 2.8. above, rated operating pressure.
+
+5.4.
+
+Notice of approval or refusal of approval of a type of warning device pursuant to this Regulation shall be communicated to the Parties to the Agreement applying this Regulation by means of a form conforming to the model in annex 1 to the Regulation, and of drawings of the audible warning device (supplied by the applicant for approval) with maximum format A.4 (210 x 297 mm) or folded to this format and on the scale 1:1.
+
+5.5.
+
+On every audible warning device which conforms to a type approved under this Regulation, there shall be affixed conspicuously, in an easily accessible place indicated on the approval form, an international approval mark comprising:
+
+E/ECE/324
+
+Rev.1/Add.27
+
+E/ECE/TRANS/505 A
+
+Regulation No. 28
+
+page 3
+
+5.5.1.
+
+a circle containing the letter "E" followed by the distinguishing number of the country granting approval; 1/
+
+5.5.2. an approval number.
+
+5.6.
+
+The approval mark must be clearly legible and indelible.
+
+5.7.
+
+Annex 3, Section 1, to this Regulation gives an example of the arrangement of the approval mark.
+
+6.
+
+SPECIFICATIONS
+
+6.1.
+
+General specifications
+
+6.1.1.
+
+The audible warning device shall emit a continuous and uniform sound; its acoustic spectrum shall not vary substantially during its operation.
+
+6.1.2.
+
+The warning device shall have acoustic characteristics (spectral distribution of the acoustic energy, sound pressure level) and mechanical characteristics such that it passes, in the order indicated, the following tests.
+
+6.2
+
+Measurement of the sound level
+
+6.2.1.
+
+The warning device shall be tested in an anechoic chamber or at an open site. 2/ Background noise and wind noise must be at least 10 dB (A) below the sound to be measured. The microphone of the measuring instrument shall be placed in the direction where the subjective sound level is greatest;
+
+-----------
+
+1/
+
+1 for the Federal Republic of Germany, 2 for France, 3 for Italy, 4 for the Netherlands, 5 for Sweden, 6 for Belgium, 7 for Hungary, 8 for Czechoslovakia, 9 for Spain, 10 for Yugoslavia, 11 for the United Kingdom, 12
+
+for Austria, 13 for Luxembourg; subsequent figures shall be assigned to other countries in the
+
+order in which they ratify or accede the Agreement concerning the Adoption of Uniform Conditions of Approval and Reciprocal Recognition of Approval for Motor Vehicle Equipment and Parts, and the figures thus assigned shall be communicated by the Secretary-General of the United Nations to the Contracting Parties to the Agreement.
+
+2/
+
+The site may take the form, for instance, of an open space of 50 metres radius, the central part of which must be practically horizontal over a radius of at least 20 metres, the surface being of concrete, asphalt or a similar material, which must not be covered with powdery snow, tall weeds, or loose soil or cinders. The measurements shall be made on a clear day. No-one other than the observer reading the instrument shall remain near the audible warning device or the microphone, since the presence of spectators may affect the readings of the instrument to a considerable extent, if they are near the audible warning device or the microphone. Any peak which appears to be unrelated to the general sound level shall be disregarded in the reading.
+
+E/ECE/324
+
+Rev.1/Add.27
+
+E/ECE/TRANS/505 A
+
+Regulation No. 28
+
+page 4
+
+the distance between the diaphragm of the microphone and the sound outlet of the device shall be 2 metres, the microphone and the warning device being placed at a height of 1. 20 m from the ground.
+
+6.2.2.
+
+The measurements shall be made on the basis of weighting curve A of the IEC (International Electro technical Commission) standards, using sonometers which conform to the type described in IEC publication No.
+
+179, first edition, 1965.
+
+6.2.3.
+
+The device shall be supplied with current, as appropriate, at one of the test voltages of 6.5, 13 or 26 volts measured at the terminal of the electric power source and corresponding respectively to rated voltages of 6, 12 and 24 volts.
+
+6.2.4.
+
+If a rectified current source is used for the test, the alternating component of the voltage measured at its terminals, when the warning devices are in operation, shall not be more than 0.1 volt, peak to peak.
+
+6.2.5.
+
+The resistance of
+
+the connecting leads, including terminals and contacts, shall be:
+
+- 0.05 ohm for a rated voltage of 6 volts,
+
+- 0.10 ohm for a rated voltage of 12 volts,
+
+- 0.20 ohm for a rated voltage of 24 volts.
+
+6.2.6.
+
+The warning device shall be mounted rigidly, by means of the equipment indicated by the manufacturer, on a support whose mass is at least ten times that of the warning device under test and not less than 30 kg. In addition, arrangements must be made to ensure that reflexions on the sides of the support and its own vibrations have no appreciable effect on the measuring results.
+
+6.2.7.
+
+Under the conditions set forth above, the sound-pressure level weighted in accordance with curve A shall be at least 105 dB (A) and not greater than 118 dB (A).
+
+6.2.8.
+
+The time lapse between the moment when the device is actuated and the moment when the sound reaches the minimum value prescribed in paragraph 6.2.7. above shall not exceed 0.2 second measured at an ambient temperature of 20 + 5/C. This provision is applicable, inter alia, to pneumatic or electro-pneumatic warning devices.
+
+6.2 9.
+
+Pneumatic or electro-pneumatic warning devices shall, when operating under the power supply conditions established for the devices by the manufacturers, satisfy the same acoustic requirements as are prescribed for electrically operated audible warning devices.
+
+E/ECE/324
+
+Rev.1/Add.27
+
+E/ECE/TRANS/505 A
+
+Regulation No. 28
+
+page 5
+
+6.3.
+
+Endurance test
+
+6.3.1.
+
+The warning device shall be supplied with current at the rated voltage and with the connecting lead resistances specified in paragraphs 6.2.3.
+
+to 6.2.5. above, and operated 50,000 times, each time for one second followed by an interval of four seconds. During the test, the device shall be ventilated by an air current having a speed of approximately 10 m/sec.
+
+6.3.2.
+
+If the test is made in an anechoic chamber, the chamber shall be large enough to ensure normal dispersal of the heat released by the warning device during the test.
+
+6.3.3.
+
+The ambient temperature in the testing room shall be between +15 and
+
++30/C.
+
+6.3.4.
+
+If, after the device has been operated 25,O00 times, the sound-level characteristics are no longer the same as before the test, the device may be adjusted. After being operated 50,000 times, and after further adjustment if necessary, the warning device must pass the test described in paragraph 6.2. above.
+
+6.3.5.
+
+For warning devices of the electro-pneumatic type, the device may be lubricated with the oil recommended by the manufacturer after every 10,000 times of operation.
+
+6.4.
+
+Sound spectrum
+
+6.4.1.
+
+The spectrum of the sound emitted by the device, measured at a distance of 2 m in accordance with the conditions specified in paragraph 6.2.1., must show, in the 1,800-3,550 Hz frequency band, a sound-pressure level higher than that of any frequency component above 3,550 Hz and in any case not less than 105 dB (A).
+
+6.4.2.
+
+The requirements indicated above must be met by a warning device which has been submitted to the test described in paragraph 6.3. above and which is supplied with current at voltages between 115 percent and 95
+
+per cent of its rated voltage.
+
+6.4.3.
+
+The resistance of the connecting leads, including terminals and contacts, shall be as specified in paragraph 6.2.5.
+
+6.4.4.
+
+The warning device under test and the microphone shall be placed at the same height and the microphone shall be placed in the direction where the subjective sound level is greatest, forward of the warning device.
+
+6.4.5.
+
+The warning device shall be mounted rigidly, by means of the equipment indicated by the manufacturer, on a support whose mass is at most ten times that of the device under test and not less than 30 kg. In addition, arrangements must be made to ensure that reflexions on the sides of the support and its own vibrations have no appreciable effect on the measuring results.
+
+6.4.6.
+
+The test shall be made in an anechoic chamber.
+
+E/ECE/324
+
+Rev.1/Add.27
+
+E/ECE/TRANS/505 A
+
+Regulation No. 28
+
+page 6
+
+7.
+
+MODIFICATION OF THE TYPE OF AUDIBLE WARNING DEVICE
+
+7.1.
+
+Any modification of the type of audible warning device shall be notified to the administrative department which granted approval to the type of audible warning device. This department may then: 7.].1.
+
+either take the view that the modifications made are not likely to have any appreciable adverse effect;
+
+7.l.2.
+
+or call for a new report from the technical service responsible for the tests.
+
+7.2.
+
+Notice of confirmation of the approval, with particulars of the modifications, or of refusal of approval shall be communicated to the Parties to the Agreement applying this Regulation, in accordance with the procedure indicated in paragraph 5.4. above.
+
+8.
+
+CONFORMITY OF PRODUCTION
+
+8.1
+
+Every audible warning device bearing an approval mark pursuant to this Regulation shall conform to the type approved and satisfy the requirements of paragraph 6.
+
+8.2.
+
+In order to check the conformity required by paragraph 8.1. above, a sample bearing the approval mark pursuant to this Regulation shall be taken from the production run.
+
+9.
+
+PENALT1ES FOR NON-CONFORMTTY OF PRODUCTION
+
+9.1.
+
+The approval granted to a type of audible warning device pursuant to this Regulation may be withdrawn if the conditions set forth in paragraph 8.1. are not complied with or if the audible warning device fails to pass the checks referred to in paragraph 8.2. above.
+
+9.2.
+
+Should a Party to the Agreement applying this Regulation withdraw an approval which it has previously granted, it shall forthwith notify the other Contracting Parties applying this Regulation by means of a copy of the approval form bearing at the end in large letters the statement, signed and dated: "APPROVAL WITHDRAWN”.
+
+10.
+
+PRODUCTION DISCONTINUED
+
+If the holder of an approval granted pursuant to this Regulation discontinues the production of the type of audible warning device approved, he shall inform the authority which granted the approval.
+
+Upon receipt of the communication, this authority shall inform the other Parties to the Agreement applying this Regulation by means of a copy of the approval form bearing at the end in large letters the statement, signed and dated: "PRODUCTION DISCONTINUED".
+
+E/ECE/324
+
+Rev.1/Add.27
+
+E/ECE/TRANS/505 A
+
+Regulation No. 28
+
+page 7
+
+II. AUDIBLE SIGNALS OF MOTOR VEHICLES
+
+11.
+
+DEFINITIONS
+
+12.
+
+For te purpose of this Regulation, 11.1.
+
+“Approval of the motor vehicle” shall be understood to mean
+
+approval of vehicle type with regard to its audible signal;
+
+11.2.
+
+“Vehicle type” shall be understood to mean vehicles not essentially different from another with respect to such matters as: 11.2.1.
+
+the number and type(s) of warning devices fitted on the vehicle; 11.2.2.
+
+the mountings
+
+used to fit the warning devices to the vehicle; 11.2.3.
+
+the position of the warning devices on the vehicle; 11. 2.4.
+
+the
+
+rigidity of the parts of
+
+the structure on which the warning device(s) is (are) mounted;
+
+11.2.5.
+
+the shape and
+
+materials of the bodywork at the front of the vehicle which might affect the level of the sound emitted by the warning device(s) and have a masking effect.
+
+12.
+
+APPLICATION FOR APPROVAL
+
+12.1.
+
+The application for approval of a vehicle type with regard to its audible signals shall be submitted by the vehicle manufacturer or by his duly accredited representative; 12,2.
+
+It shall be accompanied by the following documents in triplicate giving the following particulars: 12.2.1.
+
+a description of the vehicle type with regard to the items mentioned in paragraph 11.2. above;
+
+12.2.2.
+
+a list of the components required to identify the warning device(s) that may be mounted on the vehicle; 12.2.3.
+
+Drawings indicating the position on the vehicle of the warning device(s) and of its (their) mountings.
+
+12.3.
+
+A vehicle representative of the vehicle type to be approved shall be submitted to the technical service responsible for the approval tests.
+
+13.
+
+APPROVAL
+
+13.1.
+
+If the vehicle type submitted for approval pursuant to this Regulation meets the requirements of paragraphs 14. and 15. below, approval for this vehicle type shall be granted.
+
+13.2.
+
+Each type approved shall be assigned an approval number. The same Contracting Party shall not assign this number to another vehicle type.
+
+E/ECE/324
+
+Rev.1/Add.27
+
+E/ECE/TRANS/505 A
+
+Regulation No. 28
+
+page 8
+
+13.3.
+
+Notice of approval or of refusal of approval of a vehicle type pursuant to this Regulation shall be communicated to the Parties to the Agreement applying this Regulation by means of a form conforming to the model in annex 2 to the Regulation, and of drawings (supplied by the applicant for approval) with maximum format A.4 (210 x 297 mm), or folded to this format, and on an appropriate scale.
+
+13.4.
+
+On every vehicle which conforms to a vehicle type approved under this Regulation there shall be affixed conspicuously, in an easily accessible place indicated on the approval form, an international approval mark comprising:
+
+13.4.1.
+
+a circle containing the letter "E" followed by the distinguishing number of the country
+
+granting approval, 1/
+
+13.4.2.
+
+the number of this Regulation placed to the right of the circle referred to in paragraph 13.4.1.
+
+13.5.
+
+If the vehicle conforms to a vehicle type approved, under another (other) Regulation(s) annexed to the Agreement, in the same country as that which has granted the approval under this Regulation, the symbol referred to in paragraph 13.4. need not be repeated; in this case, the additional numbers and symbols of all the Regulations under which approval has been granted in the country which granted the approval under this Regulation shall be set out in vertical columns to the right of the symbol referred to in paragraph 13.4.
+
+13.6.
+
+The approval mark must be clearly legible and indelible.
+
+13.7.
+
+The approval mark shall be placed near the plate bearing the characteristics of the vehicle and may also be affixed to this plate.
+
+13.8.
+
+Annex 3, Section II, to this Regulation gives an example of the arrangement of the approval mark.
+
+14.
+
+SPECIFICATIONS
+
+The vehicle shall comply with the following specifications: 14.1.
+
+The audible warning device fitted on the vehicle shall be of a type approved under this Regulation;
+
+14.2.
+
+The sound pressure level of the device fitted on the vehicle shall be measured at a distance of 7 m in front of the vehicle, the
+
+latter being placed on an open site 2/, on ground as smooth as possible, and with its engine stopped;
+
+-------------
+
+1/ See paragraph 5.5.l., footnote 1/.
+
+2/ See paragraph 6.2.l., footnote 2/.
+
+E/ECE/324
+
+Rev.1/Add.27
+
+E/ECE/TRANS/505 A
+
+Regulation No. 28
+
+page 9
+
+14.3.
+
+Background noise and wind noise must be at least 10 dB (A) below the sound to be measured;
+
+14.4.
+
+The test voltage shall be as specified in paragraph 6.2.3. of the Regulation;
+
+14.5.
+
+The measurements shall be made on the basis of weighting curve A of the IEC (International Electro technical Commission) standards; 14.6.
+
+The maximum sound-pressure level shall be sought within the range of 0.5 and 1.5 m above the ground;
+
+14.7.
+
+The microphone of the measuring instrument shall be placed approximately in the mean longitudinal plane of the vehicle; 14.8.
+
+The maximum value observed must not be less than 93 dB (A).
+
+15.
+
+MODIFICATIONS OF VEHICLE TYPE
+
+15.1.
+
+Any modification of the vehicle type shall be notified to the administrative department which granted approval to the vehicle type. This department may then:
+
+15.1.1.
+
+either take the view that the modifications made are not likely to have any appreciable adverse effect and that in any case the vehicle still meets the requirements; or
+
+15.1.2.
+
+call for a new report from the technical service responsible for the tests.
+
+15.2.
+
+Notice of confirmation of approval with particulars of the modifications, or of refusal of approval shall be communicated to the Parties to the Agreement applying this Regulation, in accordance with the procedure indicated in paragraph 13.3. above.
+
+16.
+
+CONFORMITY OF PRODUCTION
+
+16.1.
+
+Every vehicle bearing an approval mark pursuant to this Regulation shall conform to the vehicle type approved and satisfy the requirements of paragraph 14. above.
+
+16.2.
+
+In order to check the conformity required by paragraph 16.1. above, a vehicle bearing the approval mark pursuant to this Regulation shall be taken from the production run.
+
+17.
+
+PENALTIES FOR NON-CONFORMITY OF PRODUCTION
+
+17.1.
+
+The approval granted to a vehicle type pursuant to this Regulation may be withdrawn if the conditions set forth in paragraph 16.1.
+
+above are not complied with, or if the vehicle fails to pass the checks referred to in paragraph 16.2. above.
+
+E/ECE/324
+
+Rev.1/Add.27
+
+E/ECE/TRANS/505 A
+
+Regulation No. 28
+
+page 10
+
+17.2.
+
+Should a Party to the Agreement applying this Regulation withdraw an approval which it has previously granted, it shall forthwith notify the other Contracting Parties applying this Regulation by means of a copy of the approval form bearing at the end in large letters the statement, signed and dated: "APPROVAL WITHDRAWN”.
+
+18.
+
+NAMES AND ADDRESSES OF THE TECHNICAL SERVICES CONDUCTING APPROVAL
+
+TESTS AND OF ADMINISTRATIVE DEPARTMENTS
+
+The Parties to the Agreement applying this Regulation shall communicate to the United Nations Secretariat the names and addresses of the technical services responsible for approval tests and of the administrative departments which grant approval and to which forms certifying approval or refusal or withdrawal of approval, issued in other countries, are to be sent.
+
+__________
+
+E/ECE/324
+
+Rev.1/Add.27
+
+E/ECE/TRANS/505 A
+
+Regulation No. 28
+
+Annex 1
+
+Annex 1
+
+(Maximum format: A 4(210 x 297 mm)) Name of the Administration
+
+Communication concerning the approval (or refusal or withdrawal of approval) of a type of audible warning device for motor vehicles, pursuant to Regulation No.28
+
+Approval No. . . . . . . . . . . . . . . . . . . . . . . .
+
+1.
+
+Trade name or mark
+
+. . . . . . . . . . . . . . . . . . . . . . .
+
+2.
+
+Type (electro-pneumatic, electro-magnetic with resonator disc, electromagnetic horn, etc .)
+
+. . . . . . . . . . . . . . . . . .
+
+3.
+
+Manufacturer's name and address
+
+. . . . . . . . . . . . . . . .
+
+4.
+
+If applicable, name and address of manufacturer's representative
+
+.
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+5.
+
+Brief description of warning devices
+
+. . . . . . . . . . . . . . .
+
+6.
+
+Supply voltage(s)
+
+. . . . . . . . . . . . . . . . . . . .
+
+volts */
+
+7.
+
+Rated operating voltage(s)
+
+. . . . . . . . . . . . . . .
+
+kg/cm 2 */
+
+8.
+
+Rated frequency (or frequencies)
+
+. . . . . . . . . . . . . .
+
+Hz */
+
+9.
+
+Geometrical characteristics (internal length and diameter) of connecting line between compressor or control and the audible warning device
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+10.
+
+Submitted for approval on
+
+. . . . . . . . . . . . . . . . . . .
+
+11.
+
+Technical service responsible for conducting approval tests
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+12.
+
+Date of report issued by that service
+
+. . . . . . . . . . . . . .
+
+13.
+
+Number of report issued by that service
+
+. . . . . . . . . . . . .
+
+14.
+
+Approval granted/refused */
+
+15.
+
+Place
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+16.
+
+Date
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+17.
+
+Signature
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+18.
+
+The following documents bearing the approval number shown above are annexed to this communication:
+
+...
+
+drawings, diagrams and plans of the warning device;
+
+...
+
+photographs.
+
+--------------
+
+------------
+
+*/ Strike out whatever does not apply.
+
+E/ECE/324
+
+Rev.1/Add.27
+
+E/ECE/TRANS/505 A
+
+Regulation No. 28
+
+Annex 2
+
+Annex 2
+
+(Maximum format: A 4(210 x 297 mm)) Name of the Administration
+
+Communication concerning the approval (or refusal or withdrawal of approval) of a vehicle type with regard to its audible signals pursuant to Regulation No.28
+
+Approval No.
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+1.
+
+Trade name or mark of the vehicle
+
+. . . . . . . . . . . . . . . .
+
+2.
+
+Vehicle type
+
+. . . . . . . . . . . . . . . . . . . . . . . . . .
+
+3.
+
+Manufacturer's name and address
+
+. . . . . . . . . . . . . . . .
+
+4.
+
+If applicable, name and address of manufacturer's representative
+
+.
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+5.
+
+Type(s) of warning device(s) */
+
+. . . . . . . . . . . . . . . . .
+
+6.
+
+Sound level values:
+
+. . . . . . . . . . . . . . . . . . . . . . .
+
+7.
+
+Submitted for approval on
+
+. . . . . . . . . . . . . . . . . . .
+
+8.
+
+Technical service responsible for approval tests
+
+. . . . . . . . .
+
+9.
+
+Date of report issued by that service
+
+. . . . . . . . . . . . . .
+
+10.
+
+Number of report issued by that service
+
+. . . . . . . . . . . . .
+
+11.
+
+Approval granted/refused **/
+
+12.
+
+Place
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+13.
+
+Date
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+14.
+
+Signature
+
+. . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+15.
+
+The following documents are annexed to this communication:
+
+...
+
+drawings of the mountings of the warning device(s),
+
+...
+
+drawings and diagrams giving the mounting positions and characteristics of the parts of the structure on which the devices are fitted.
+
+...
+
+over-all views of the front of the vehicle and of the compartment in which the device is situated and description of the component materials.
+
+--------------
+
+------------
+
+*/
+
+Indicate the approval numbers.
+
+**/
+
+Strike out what does not apply.
+
+E/ECE/324
+
+Rev.1/Add.27
+
+E/ECE/TRANS/505 A
+
+Regulation No. 28
+
+Annex 3
+
+Page
+
+1
+
+Annex 3
+
+I. ARRANGEMENT OF THE APPROVAL MARK OF THE AUDIBLE
+
+WARNING DEVICE
+
+The above approval mark, affixed to an audible warning device, indicates that this audible warning device has been approved in the Netherlands (E 4), with the number 2439.
+
+Note
+
+The approval number must be placed close to the circle and must be in a position either above or below the letter “E” or to the left or the right of the letter "E". The digits of the approval number must be on the same side of the letter "E" and face the same way. The competent authorities shall avoid using Roman numerals for approval, in order to prevent any confusion with other symbols.
+
+E/ECE/324
+
+Rev.1/Add.27
+
+E/ECE/TRANS/505 A
+
+Regulation No. 28
+
+Annex 3
+
+Page
+
+3
+
+II. ARRANGEMENT OF THE APPROVAL MARK OF A VEHICLE WITH REGARD
+
+TO ITS AUDIBLE SIGNALS
+
+Model A
+
+The above approval mark affixed to a vehicle indicates that, pursuant to Regulation No. 28, this vehicle type has been approved in the Netherlands (E 4), with regard to its audible signals.
+
+Model B
+
+The above approval mark affixed to a vehicle indicates that, pursuant to Regulations Nos. 28 and 24, this vehicle type has been approved in the Netherlands (E 4), with regard to its audible signals and to emissions of pollutants by the Diesel engine. In the case of the latter Regulation, the corrected value of the absorption factor is 1.30 m -1.
+
+
+
+
+
