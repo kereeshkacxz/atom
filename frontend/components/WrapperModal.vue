@@ -55,6 +55,9 @@ onBeforeUnmount(() => {
   position: relative;
   min-width: 100px;
   min-height: 100px;
+  max-width: 80vw;
+  max-height: 80vh;
+
   background: var(--bg-grad);
   padding: 50px 30px;
   border-radius: 10px;
