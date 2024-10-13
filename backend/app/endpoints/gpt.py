@@ -9,6 +9,8 @@ from app.utils.pdf import pdfToText
 from app.utils.haikuGpt import assayText, textFormat
 from app.models import AnalizeText, AnalizeListText
 from app.static.pattern import pattern
+from app.static.dictOfDecriptions import descriptions_dict
+
 from starlette import status
 
 apiRouter = APIRouter(prefix="/gpt", tags=["GPT"])
@@ -81,3 +83,13 @@ async def gpt(analyze_data: AnalizeListText, session: AsyncSession = Depends(get
 async def text_format(text: str):
     format_text = await textFormat(text, pattern)
     return {'normalize_text': format_text}
+
+@apiRouter.post(
+    "/shortly",
+    status_code=status.HTTP_200_OK,
+)
+async def text_shortly(name: str):
+    if name not in descriptions_dict:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Name not found")
+    shortly_text = descriptions_dict[name]
+    return {'shortly_text': shortly_text}
