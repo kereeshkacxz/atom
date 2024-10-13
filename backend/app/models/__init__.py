@@ -2,7 +2,7 @@ from .registration import RegistrationAdmin, RegistrationForm, RegistrationSucce
 from .token import Token, TokenData
 from .user import AuthSchema, UserSchema, UserTable
 from .files import FilesTable, FoldersTable
-from .gpt import AnalizeText, AnalizeListText
+from .gpt import AnalizeText, AnalizeListText, ShortlyModel
 
 
 
@@ -19,4 +19,5 @@ __all__ = [
     "FoldersTable",
     "AnalizeText",
     "AnalizeListText",
+    "ShortlyModel",
 ]
