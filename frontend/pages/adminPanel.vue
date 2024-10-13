@@ -24,7 +24,7 @@
           <NuxtImg
             preload
             class="icon delete-icon"
-            src="http://localhost:3000/_nuxt/public/cross.png"
+            src="/cross.png"
             @click.stop="removeFile(index)"
           />
           {{ file.name }}

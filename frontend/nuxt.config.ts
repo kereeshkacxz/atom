@@ -45,7 +45,7 @@ export default defineNuxtConfig({
         {
           rel: "icon",
           type: "image/x-icon",
-          href: "http://localhost:3000/_nuxt/public/favicon.ico",
+          href: "/favicon.ico",
         },
       ],
     },
@@ -66,5 +66,6 @@ export default defineNuxtConfig({
   ],
 
   compatibilityDate: "2024-08-14", // Дата совместимости
-  modules: ["@nuxt/image"], // Подключение модуля для работы с изображениями
+  modules: ["@nuxt/image"],
+  image: { dir: "public" }, // Подключение модуля для работы с изображениями
 });

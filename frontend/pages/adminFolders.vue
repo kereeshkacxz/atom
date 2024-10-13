@@ -6,31 +6,31 @@
           <NuxtImg
             preload
             class="icon"
-            src="http://localhost:3000/_nuxt/public/minus.png"
+            src="/minus.png"
           />
           <NuxtImg
             preload
             class="icon"
-            src="http://localhost:3000/_nuxt/public/open_folder.png"
+            src="/open_folder.png"
           />
         </div>
         <div v-else class="icons">
           <NuxtImg
             preload
             class="icon"
-            src="http://localhost:3000/_nuxt/public/plus.png"
+            src="/plus.png"
           />
           <NuxtImg
             preload
             class="icon"
-            src="http://localhost:3000/_nuxt/public/folder.png"
+            src="/folder.png"
           />
         </div>
         {{ folder.name }}
         <NuxtImg
           preload
           class="icon delete-icon"
-          src="http://localhost:3000/_nuxt/public/cross.png"
+          src="/cross.png"
           @click.stop="confirmRemoveFolder(folder)"
         />
       </div>
@@ -39,13 +39,13 @@
           <NuxtImg
             preload
             class="icon"
-            src="http://localhost:3000/_nuxt/public/file.png"
+            src="/file.png"
           />
           {{ file.name }}
           <NuxtImg
             preload
             class="icon delete-icon"
-            src="http://localhost:3000/_nuxt/public/cross.png"
+            src="/cross.png"
             @click.stop="confirmDeleteFile(file, folder.id)"
           />
         </div>

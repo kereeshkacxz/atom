@@ -14,7 +14,7 @@
         <NuxtImg
           preload
           v-if="props.removable"
-          src="http://localhost:3000/_nuxt/public/cross.png"
+          src="/cross.png"
           @click="removeChip(index)"
           class="remove-button"
         />

@@ -87,7 +87,7 @@
       :style="{ width: '130px' }"
       :to="`/authorization`"
     >
-      <NuxtImg class="img" src="/_nuxt/public/people.png" />
+      <NuxtImg class="img" src="/people.png" />
 
       Sign In
     </NuxtLink>
