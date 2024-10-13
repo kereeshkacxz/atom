@@ -10,6 +10,7 @@ class UserTable(SQLModel, table=True):
     password: str = Field(nullable=False)
     email: str = Field(nullable=False, unique=True, index=True)
     type: str | None = Field(default="user", nullable=False)
+    api_key: str | None = Field(nullable=True)
 
 class UserSchema(SQLModel):
     username: str

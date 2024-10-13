@@ -8,3 +8,6 @@ class AnalizeText(SQLModel):
 
 class AnalizeListText(SQLModel):
     simples: list[AnalizeText]
+
+class ShortlyModel(SQLModel):
+    folders_ids: list[uuid.UUID]

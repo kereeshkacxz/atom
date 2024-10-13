@@ -32,8 +32,10 @@ async def sendMessage(api_key, url, instruction, temperature, messages):
     
     return response.json()
 
-async def textFormat(user_text: str, pattern_text: str):
-    api_key = getSettings().PROXY_API_KEY
+async def textFormat(user_text: str, pattern_text: str, api_key: str | None):
+    if api_key is None:
+        api_key = getSettings().PROXY_API_KEY
+
     url = getSettings().URL
 
     messages = [
@@ -63,8 +65,9 @@ async def textFormat(user_text: str, pattern_text: str):
 
     return text
 
-async def assayText(user_text: str, requirment_texts: list[str]):
-    api_key = getSettings().PROXY_API_KEY
+async def assayText(user_text: str, requirment_texts: list[str], api_key: str | None):
+    if api_key is None:
+        api_key = getSettings().PROXY_API_KEY
     url = getSettings().URL
 
     instruction = """
@@ -106,6 +109,27 @@ async def assayText(user_text: str, requirment_texts: list[str]):
 
     # Использование регулярного выражения для извлечения JSON
     json_match = re.search(r'\{.*?\}', text, re.DOTALL)
+    if not json_match.group(0):
+        messages = [
+            {
+                "role": "user",
+                "content": """Convert this message to a json of this type:
+                    {
+                        "result": "Do not match" or "Match",
+                        "description": "Description",
+                    }"""
+            },
+            {
+                "role": "user",
+                "content": f""" message:
+                    {text}
+                """
+            }
+            
+        ]
+        response = await sendMessage(api_key, url, '', 0.1, messages)
+        text = response['content'][0]['text']
+        json_match = re.search(r'\{.*?\}', text, re.DOTALL)
     json_string = json_match.group(0).replace('\n', '').replace('\\', '')
     data = json.loads(json_string)
     return data

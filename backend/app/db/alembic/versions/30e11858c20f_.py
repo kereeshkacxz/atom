@@ -28,6 +28,7 @@ def upgrade() -> None:
         sa.Column("username", sqlmodel.sql.sqltypes.AutoString(), nullable=False),
         sa.Column("password", sqlmodel.sql.sqltypes.AutoString(), nullable=False),
         sa.Column("email", sqlmodel.sql.sqltypes.AutoString(), nullable=False),
+        sa.Column("api_key", sqlmodel.sql.sqltypes.AutoString(), nullable=True),
         sa.PrimaryKeyConstraint("id"),
     )
     op.add_column("usertable", sa.Column("type", sqlmodel.sql.sqltypes.AutoString(), nullable=False))

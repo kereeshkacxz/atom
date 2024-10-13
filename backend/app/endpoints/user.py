@@ -152,6 +152,7 @@ async def update_user(
     username: str | None = None,
     old_password: str | None = None,
     password: str | None = None,
+    api_key: str | None = None,
     session: AsyncSession = Depends(getSession),
 ) -> UserSchema:
 
@@ -163,6 +164,9 @@ async def update_user(
 
     if username is not None:
         current_user.username = username
+
+    if api_key is not None:
+        current_user.api_key = api_key
 
     if old_password is not None and password is not None:
         if not await authenticateUser(session, current_user.email, old_password):
