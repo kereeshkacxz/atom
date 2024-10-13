@@ -97,6 +97,7 @@ async function analyze() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
@@ -116,15 +117,14 @@ async function normalize() {
   if (isLoading.value) return;
   isLoading.value = true;
   try {
-    const responseFolders = await $api.get(
-      `api/v1/normalize`,
-      {
-        text: textContent.value,
-      },
+    const responseFolders = await $api.post(
+      `api/v1/gpt/normalize/?text=${textContent.value}`,
+      {},
       {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
