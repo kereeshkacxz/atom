@@ -6,8 +6,9 @@ from app.db.connection import getSession
 from app.models import FoldersTable, FilesTable
 from app.repositories.files import getFolder, getFilesByFolder, getFile
 from app.utils.pdf import pdfToText
-from app.utils.haikuGpt import assayText
+from app.utils.haikuGpt import assayText, textFormat
 from app.models import AnalizeText, AnalizeListText
+from app.static.pattern import pattern
 from starlette import status
 
 apiRouter = APIRouter(prefix="/gpt", tags=["GPT"])
@@ -72,3 +73,11 @@ async def gpt(analyze_data: AnalizeListText, session: AsyncSession = Depends(get
     summ_answer['statistics'] = statistics
         
     return summ_answer
+
+@apiRouter.post(
+    "/normalize",
+    status_code=status.HTTP_200_OK,
+)
+async def text_format(text: str):
+    format_text = await textFormat(text, pattern)
+    return {'normalize_text': format_text}

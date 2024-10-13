@@ -31,6 +31,38 @@ async def sendMessage(api_key, url, instruction, temperature, messages):
     response.raise_for_status()
     
     return response.json()
+
+async def textFormat(user_text: str, pattern_text: str):
+    api_key = getSettings().PROXY_API_KEY
+    url = getSettings().URL
+
+    messages = [
+        {
+            "role": "user",
+            "content": """ 
+                It is necessary to convert the text according to the template.
+                Perhaps some fields are missing, bring the text to the template as best you can
+                DO NOT INVENT TOO MUCH""",
+        },
+        {
+            "role": "user",
+            "content": f""" text:
+                {user_text}
+            """
+        },
+        {
+            "role": "user",
+            "content": f""" template:
+                {pattern_text}
+            """
+        }
+    ]
+
+    response = await sendMessage(api_key, url, '', 0.1, messages)
+    text = response['content'][0]['text']
+
+    return text
+
 async def assayText(user_text: str, requirment_texts: list[str]):
     api_key = getSettings().PROXY_API_KEY
     url = getSettings().URL
