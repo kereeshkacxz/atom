@@ -1,6 +1,6 @@
 import httpx
 import json
-import asyncio  # Импортируем asyncio для использования sleep
+import asyncio
 from app.config import getSettings
 from fastapi import HTTPException
 
@@ -14,38 +14,37 @@ async def sendMessage(url, messages):
     
     Returns:
         dict: Ответ API.
-    """
-    data = {
-        "messages":  messages
-    }
     
+    Raises:
+        httpx.HTTPStatusError: Если ответ имеет статус ошибки.
+        ValueError: Если ответ не может быть преобразован в JSON.
+    """
     headers = {
         "Content-Type": "application/json",
+        "Authorization": f"Bearer {getSettings().PROXY_API_KEY}",  # Убедитесь, что у вас есть ключ API
+        "Anthropic-Version": "2023-06-01"  # Версия API
+    }
+
+    data = {
+        "model": "claude-3-opus-20240229",  # Укажите модель
+        "messages": messages,
+        "max_tokens": 1024,
     }
     
     async with httpx.AsyncClient() as client:
+        response = await client.post(url, headers=headers, json=data, timeout=40)
+        response.raise_for_status()  # Проверка на статус ошибки
 
-        try:
-            response = await client.post(url, headers=headers, json=data, timeout=40)
-            response.raise_for_status()
-        except httpx.ReadTimeout:
-            raise HTTPException(status_code=504, detail="Request timed out")
-        except httpx.HTTPStatusError as e:
-            raise HTTPException(status_code=e.response.status_code, detail=str(e))
-
-
-    
-    try:
-        return response.json() 
-    except ValueError as e:
-        raise HTTPException(status_code=500, detail=e)
+        return response.json()
 
 async def assayText(user_text: str, requirment_texts: list[str]):
     url = getSettings().URL
 
     instruction = """
-                The data consists of: Requirements and documents.
-                You need to match the document to the requirements and understand whether it meets or not
+                The data consists of two input artifacts: certification regulations and a development requirement.
+                The regulations are described for each regulatory object, and the requirement for the system.
+                It is necessary to check whether the requirements comply with the certification regulations.
+                Output the result in JSON format.
                 Response format:
                 {
                     "result": "Do not match" or "Match",
@@ -55,12 +54,12 @@ async def assayText(user_text: str, requirment_texts: list[str]):
 
     messages = [
         {
-            "role": "user",
+            "role": "system",
             "content": instruction
         },
         {
             "role": "user",
-            "content": f""" Document:
+            "content": f""" development requirement:
                 {user_text}
             """
         }
@@ -70,7 +69,7 @@ async def assayText(user_text: str, requirment_texts: list[str]):
         messages.append(
             {
                 "role": "user",
-                "content": f""" Requirement:
+                "content": f""" certification regulation:
                     {text}
                 """
             }
@@ -82,6 +81,6 @@ async def assayText(user_text: str, requirment_texts: list[str]):
     response = await sendMessage(url, messages)
     
     # # Обработка ответа
-    # json_string = response['generated_text']['content'].replace('\n', '').replace('\\', '')
+    # json_string = response['completion']  # Измените на правильный ключ для ответа
     # data = json.loads(json_string)
     return response
