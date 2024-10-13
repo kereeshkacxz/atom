@@ -1,4 +1,17 @@
 services:
+  atom-nginx:
+    container_name: ${NGINX_HOST}
+    image: nginx:latest
+    ports:
+      - '80:80'  # Проброс порта 80
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - atom-backend
+      - atom-front
+    networks:
+      - networkName
+
   atom-db:
     container_name: ${POSTGRES_HOST}
     hostname: ${POSTGRES_HOST}
