@@ -158,17 +158,16 @@ async function short_requirements() {
     .map((selectedChip) => selectedChip.id);
 
   try {
-    const response = await $api.get(
-      `api/v1/short_requirement`,
+    const response = await $api.post(
+      `api/v1/gpt/shortly`,
       {
-        params: {
-          folders_ids: missingChipIds,
-        },
+        folders_ids: missingChipIds,
       },
       {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );

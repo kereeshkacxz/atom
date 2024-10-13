@@ -51,6 +51,14 @@
       <h3>Username</h3>
       <CInput class="input" placeholder="Enter username" v-model="username" />
     </div>
+    <div class="block">
+      <h3>Api-key https://www.segmind.com/</h3>
+      <CInput
+        class="input"
+        placeholder="Enter api-key from https://www.segmind.com/"
+        v-model="apikey"
+      />
+    </div>
     <CButton @click="open(1)">Save Changes</CButton>
     <CButton @click="open(2)">Change Password</CButton>
   </div>
@@ -63,6 +71,7 @@ import { useNuxtApp } from "#app";
 const { $api } = useNuxtApp();
 const information = ref({});
 const username = ref("");
+const apikey = ref("");
 const oldPassword = ref("");
 const newPassword = ref("");
 
@@ -85,7 +94,9 @@ async function saveChanges() {
   try {
     const endpoint =
       type.value === 1
-        ? `api/v1/user/me_update?username=${username.value}&old_password=${oldPassword.value}`
+        ? apikey.value === ""
+          ? `api/v1/user/me_update?username=${username.value}&old_password=${oldPassword.value}`
+          : `api/v1/user/me_update?username=${username.value}&api_key=${apikey.value}&old_password=${oldPassword.value}`
         : `api/v1/user/me_update?old_password=${oldPassword.value}&password=${newPassword.value}`;
 
     const responseInformation = await $api.put(
