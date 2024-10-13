@@ -4,12 +4,19 @@ Atom Hackaton - Infinity_zarplata
 
 # Запуск проекта
 
-На линуксе:
-`    make env - создание .env файла
-   `
-`    make run - запуск проекта
-   `
+На Linux:
+    `
+    make env - создание .env файла
+    `
 
+    `    
+    make run - запуск проекта
+    `
+
+На Windows with Docker:
+    `
+    docker compose up
+    `
 
 # Участники команды:
 
