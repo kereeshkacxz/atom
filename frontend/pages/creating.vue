@@ -116,26 +116,27 @@ async function normalize() {
   if (isLoading.value) return;
   isLoading.value = true;
   try {
-    // const responseFolders = await $api.get(`api/v1/normalize`, {
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    //   params: {
-    //     text: textContent.value,
-    //   },
-    // });
-    // availableChips.value = responseFolders.data;
-    console.log({
-      text: textContent.value,
-    });
+    const responseFolders = await $api.get(
+      `api/v1/normalize`,
+      {
+        text: textContent.value,
+      },
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
     createNotification(`Text successful normalized.`, "success");
+    textContent = responseFolders.data;
   } catch (error) {
     console.error("Error fetching data:", error);
     createNotification(`Unable to display the text in the template`, "error");
   }
   isLoading.value = false;
 }
+
 async function short_requirements() {
   chipsToVisible.value = chipsToVisible.value.filter((chip) =>
     selectedChips.value.some((selectedChip) => selectedChip.id === chip.id)
@@ -157,33 +158,32 @@ async function short_requirements() {
     .map((selectedChip) => selectedChip.id);
 
   try {
-    // const response = await $api.get(`api/v1/short_requirement`, {
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    //   params: {
-    //     folders_id: missingChipIds,
-    //   },
-    // });
-    console.log({ folders_id: missingChipIds });
-    // const newChips = response.data;
+    const response = await $api.get(
+      `api/v1/short_requirement`,
+      {
+        params: {
+          folders_ids: missingChipIds,
+        },
+      },
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-    // newChips.forEach((chip) => {
-    //   if (
-    //     !chipsToVisible.value.some((visibleChip) => visibleChip.id === chip.id)
-    //   ) {
-    //     chipsToVisible.value.push(chip);
-    //   }
-    // });
-    missingChipIds.map((chip) => {
-      chipsToVisible.value.push({
-        id: chip,
-        name: "AVAS",
-        content:
-          "AVAS (Acoustic Vehicle Alerting System) — это система звукового оповещения для электромобилей и гибридов, которая издает искусственный шум на низких скоростях, чтобы предупреждать пешеходов о приближении транспортного средства.",
-      });
-    });
+    const newChips = response.data;
+
+    for (const [key, value] of Object.entries(newChips)) {
+      if (!chipsToVisible.value.some((visibleChip) => visibleChip.id === key)) {
+        chipsToVisible.value.push({
+          id: key,
+          name: value[0], // Используем первый элемент массива как имя
+          content: value[1], // Используем второй элемент массива как контент
+        });
+      }
+    }
   } catch (error) {
     console.error("Error fetching new chips:", error);
     createNotification(`Unable to load shortly requirements`, "error");
