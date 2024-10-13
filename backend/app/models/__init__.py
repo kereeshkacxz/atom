@@ -17,7 +17,6 @@ __all__ = [
     "AuthSchema",
     "FilesTable",
     "FoldersTable",
-    "AssayTextModel",
     "AnalizeText",
     "AnalizeListText",
 ]

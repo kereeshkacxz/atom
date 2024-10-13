@@ -42,9 +42,12 @@ async def gpt(analyze_data: AnalizeText, session: AsyncSession = Depends(getSess
     status_code=status.HTTP_200_OK,
 )
 async def gpt(analyze_data: AnalizeListText, session: AsyncSession = Depends(getSession)):
+    summ_answer = {}
+    summ_answer['list_answers'] = []
+    statistics = {'positive': 0, 'negative': 0}
     for analyze_simple in analyze_data.simples:
         requirment_texts = []
-        for folder_id in analyze_data.list:
+        for folder_id in analyze_simple.folders_ids:
             folder = await getFolder(session, folder_id)
             if not folder:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Folder not found")
@@ -58,6 +61,14 @@ async def gpt(analyze_data: AnalizeListText, session: AsyncSession = Depends(get
                 pdfText = await pdfToText(file_url)
                 requirment_texts.append(pdfText)
 
-        final_text = await assayText(analyze_data.text, requirment_texts)
+        final_text = await assayText(analyze_simple.text, requirment_texts)
+
+        if final_text['result'] == 'Match':
+            statistics['positive'] += 1
+        else:
+            statistics['negative'] += 1
         
-    return final_text
+        summ_answer['list_answers'].append(final_text)
+    summ_answer['statistics'] = statistics
+        
+    return summ_answer

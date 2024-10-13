@@ -14,4 +14,4 @@ def _convert_pdf_to_txt(pdf_path):
         page = document.load_page(page_num) 
         text += page.get_text() 
     document.close()
-    return text
+    return text.replace('"', "'")
