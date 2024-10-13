@@ -1,0 +1,1 @@
+{    'result': 'Match',    'description': 'The development requirement I-23569 for the 'Hill Hold' use case matches the certification regulation UNECE R 13-H-01. The vehicle is equipped with the required braking systems and the performance of the braking systems meets the regulatory requirements.'}
