@@ -129,7 +129,7 @@ async function normalize() {
       }
     );
     createNotification(`Text successful normalized.`, "success");
-    textContent = responseFolders.data;
+    textContent.value = responseFolders.data;
   } catch (error) {
     console.error("Error fetching data:", error);
     createNotification(`Unable to display the text in the template`, "error");
