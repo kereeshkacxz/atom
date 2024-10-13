@@ -89,7 +89,7 @@
     >
       <NuxtImg
         class="img"
-        src="http://localhost:3000/_nuxt/public/people.png"
+        src="http://atom-front:3000/_nuxt/public/people.png"
       />
       Sign In
     </NuxtLink>
