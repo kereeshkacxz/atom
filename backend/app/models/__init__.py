@@ -1,7 +1,8 @@
 from .registration import RegistrationAdmin, RegistrationForm, RegistrationSuccess
 from .token import Token, TokenData
 from .user import AuthSchema, UserSchema, UserTable
-from .files import FilesTable, FoldersTable, AssayTextModel
+from .files import FilesTable, FoldersTable
+from .gpt import AnalizeText, AnalizeListText
 
 
 
@@ -17,4 +18,6 @@ __all__ = [
     "FilesTable",
     "FoldersTable",
     "AssayTextModel",
+    "AnalizeText",
+    "AnalizeListText",
 ]
