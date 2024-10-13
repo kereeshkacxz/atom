@@ -1,7 +1,10 @@
 import requests
 import json
 import re
+import ast
+
 from app.config import getSettings
+from fastapi import HTTPException
 
 async def sendMessage(api_key, url, instruction, temperature, messages):
     """
@@ -75,6 +78,12 @@ async def assayText(user_text: str, requirment_texts: list[str], api_key: str | 
                 The regulations are described for each regulatory object, and the requirement for the system.
                 It is necessary to check whether the requirements comply with the certification regulations.
                 Output the result in JSON format.
+                The result of the algorithm should be a comment on each processed development case. Comments can be of the following types (type 1/2/3):
+                The system under development does not belong to the certified ones. No verification is required.
+                The certified facilities are mentioned in the case, the regulations are followed. It is necessary to note the regulations that affect this development case.
+                The case mentions certified objects that are subject to certification restrictions, but they are not described in the case. It is necessary to supplement the case with a description of the restrictions from the regulations.
+                The case mentions certified facilities, the requirement for development contradicts (does not comply with) the certification regulations. Adjustments need to be made.
+                The types can be found below.
                 Response format:
                 {
                     "result": "Do not match" or "Match",
@@ -130,6 +139,9 @@ async def assayText(user_text: str, requirment_texts: list[str], api_key: str | 
         response = await sendMessage(api_key, url, '', 0.1, messages)
         text = response['content'][0]['text']
         json_match = re.search(r'\{.*?\}', text, re.DOTALL)
-    json_string = json_match.group(0).replace('\n', '').replace('\\', '')
-    data = json.loads(json_string)
+    try:
+        json_string = json_match.group(0).replace('\n', '').replace('\\', '').replace('"', "'")
+        data = ast.literal_eval(json_string)
+    except json.JSONDecodeError as e:
+        raise HTTPException(status_code=500, detail=f"JSON decode error: {str(e)}. Response: {json_string}")
     return data
