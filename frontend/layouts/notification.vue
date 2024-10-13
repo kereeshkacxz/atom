@@ -112,4 +112,9 @@ provide("createNotification", createNotification);
     opacity: 1;
   }
 }
+@media (max-width: 768px) {
+  .notification_container {
+    max-width: 300px;
+  }
+}
 </style>

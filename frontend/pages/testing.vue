@@ -47,17 +47,31 @@
         :removable="visiblerReport.length === 0"
       />
       <CButton
-        class="btn"
+        class="btnGenerate"
         v-if="extractedFiles.length > 0 && visiblerReport.length === 0"
         @click="validation"
+        :active="!isLoading"
       >
-        Сгенерировать отчеты
+        Generate Report
       </CButton>
       <div
         class="report-displays"
         v-if="visiblerReport.length > 0 && extractedFiles.length > 0"
       >
+        <h2 style="color: var(--success-color)">
+          Correct files: {{ correctFilesCount }}
+        </h2>
+        <h2 style="color: var(--unsuccess-color)">
+          Incorrect files: {{ incorrectFilesCount }}
+        </h2>
         <ReportDisplay :report="visiblerReport[selectedIndex]" />
+        <CButton
+          class="btnDownload"
+          @click="downloadReport"
+          :active="!isLoading"
+        >
+          Download Report
+        </CButton>
       </div>
     </div>
   </div>
@@ -65,6 +79,7 @@
 
 <script setup>
 import mammoth from "mammoth";
+import { jsPDF } from "jspdf";
 const { $api } = useNuxtApp();
 const curTab = ref(0);
 const router = useRouter();
@@ -81,7 +96,10 @@ const selectedChips = ref([]);
 const availableChips = ref([]);
 const errorChips = ref([]);
 const visiblerReport = ref([]);
-
+const correctFilesCount = ref(0);
+const incorrectFilesCount = ref(0);
+const isLoading = ref(false);
+const jsonToPDF = ref({});
 const isLeftArrowDisabled = computed(
   () => selectedIndex.value === 0 || extractedFiles.value.length === 0
 );
@@ -90,6 +108,69 @@ const isRightArrowDisabled = computed(
     selectedIndex.value === extractedFiles.value.length - 1 ||
     extractedFiles.value.length === 0
 );
+
+async function downloadReport() {
+  if (isLoading.value) return;
+  isLoading.value = true;
+  const doc = new jsPDF();
+
+  doc.setFontSize(16);
+  doc.text("Verification Results", 10, 10);
+
+  doc.setFontSize(12);
+  const marginLeft = 10; // Left margin
+  const lineHeight = 10; // Line height for spacing
+
+  let currentY = 20; // Starting Y position for statistics
+
+  // Add statistics at the beginning
+  const positiveText = `Positive: ${jsonToPDF.value.statistics.positive}`;
+  const negativeText = `Negative: ${jsonToPDF.value.statistics.negative}`;
+
+  const positiveLines = doc.splitTextToSize(positiveText, 190);
+  const negativeLines = doc.splitTextToSize(negativeText, 190);
+
+  positiveLines.forEach((line) => {
+    doc.text(line, marginLeft, currentY);
+    currentY += lineHeight; // Move down for the next line
+  });
+
+  negativeLines.forEach((line) => {
+    doc.text(line, marginLeft, currentY);
+    currentY += lineHeight; // Move down for the next line
+  });
+
+  // Add some space before the answers
+  currentY += 10; // Add extra space before answers
+
+  // Add answers
+  jsonToPDF.value.list_answers.forEach((answer, index) => {
+    const answerText = `${extractedFiles.value[index].file.name}: ${answer.result}`; // Updated line
+    const descriptionText = `Description: ${answer.description}`;
+
+    // Split text to fit within the PDF width
+    const answerLines = doc.splitTextToSize(answerText, 190); // 190 is the width
+    const descriptionLines = doc.splitTextToSize(descriptionText, 190);
+
+    // Add answer lines to PDF
+    answerLines.forEach((line) => {
+      doc.text(line, marginLeft, currentY);
+      currentY += lineHeight; // Move down for the next line
+    });
+
+    // Add description lines to PDF
+    descriptionLines.forEach((line) => {
+      doc.text(line, marginLeft, currentY);
+      currentY += lineHeight; // Move down for the next line
+    });
+
+    // Add some space between answers
+    currentY += 5; // Add extra space after each answer
+  });
+
+  doc.save("results.pdf");
+  isLoading.value = false;
+}
 
 async function fetchData() {
   try {
@@ -118,37 +199,50 @@ function validation() {
 }
 
 async function testing() {
+  if (isLoading.value) return;
+  isLoading.value = true;
   try {
-    console.log({
-      list: extractedFiles.value.map((fileObject, index) => {
-        return {
-          text: fileObject.content,
-          folders_id: selectedChips.value[index].map((chip) => {
-            return chip.id;
-          }),
-        };
-      }),
-    });
+    const responseFolders = await $api.post(
+      `api/v1/gpt/analyze_list`,
+      {
+        simples: extractedFiles.value.map((fileObject, index) => {
+          return {
+            text: fileObject.content,
+            folders_ids: selectedChips.value[index].map((chip) => {
+              return chip.id;
+            }),
+          };
+        }),
+      },
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     visiblerReport.value = [];
 
-    extractedFiles.value.forEach((fileObject, index) => {
-      const report = {
-        status: "Соответствует.",
-        description: `Файл ${fileObject.file.name} соответствует требованиям - все хорошо.`,
-        fileName: fileObject.file.name,
-      };
-      visiblerReport.value.push(report);
+    responseFolders.data.list_answers.forEach((report, index) => {
+      visiblerReport.value.push({
+        status: report.result,
+        description: report.description,
+        fileName: extractedFiles.value[index].file.name,
+      });
     });
-
+    correctFilesCount.value = responseFolders.data.statistics.positive;
+    incorrectFilesCount.value = responseFolders.data.statistics.negative;
     createNotification(
       "All files have been checked, and reports have been generated.",
       "success"
     );
+    jsonToPDF.value = responseFolders.data;
   } catch (error) {
     console.error("Error fetching data:", error);
     createNotification(`${error.response.data.detail}`, "error");
   }
+  isLoading.value = false;
 }
 
 const handleFilesSelected = (files) => {
@@ -398,5 +492,12 @@ div.scrollmenu a.active {
 .disabled {
   color: #777;
   cursor: default;
+}
+.btnDownload,
+.btnGenerate {
+  margin-top: 25px;
+  padding: 10px 10px;
+  font-size: 1.2em;
+  width: 250px;
 }
 </style>

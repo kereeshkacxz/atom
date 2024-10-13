@@ -46,4 +46,7 @@ const props = defineProps({
   color: #777;
   text-align: center;
 }
+.file-name {
+  color: var(--main-color);
+}
 </style>

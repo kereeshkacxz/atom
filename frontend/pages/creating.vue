@@ -10,12 +10,24 @@
         ></textarea>
       </div>
       <div class="wrapper_buttons_ii">
-        <CButton class="btnAnalyze" @click="analyze">Analyze</CButton>
-        <CButton class="btnNormalyze" @click="normalize">Normalize</CButton>
+        <CButton
+          class="btnAnalyze"
+          @click="analyze"
+          :active="!isLoading"
+          :class="[{ disabled: isLoading }]"
+          >{{ isLoading ? "Loading..." : "Analyze" }}</CButton
+        >
+        <CButton
+          class="btnNormalyze"
+          @click="normalize"
+          :active="!isLoading"
+          :class="[{ disabled: isLoading }]"
+          >{{ isLoading ? "Loading..." : "Normalize" }}</CButton
+        >
       </div>
 
       <div class="right-wrapper">
-        <textarea readonly></textarea>
+        <textarea readonly v-model="answer"></textarea>
       </div>
     </div>
     <div class="wrapper">
@@ -46,10 +58,10 @@ const router = useRouter();
 const availableChips = ref(["one"]);
 const selectedChips = ref([]);
 const deletedChips = ref([]);
-const chipsToRequest = ref([]);
 const chipsToVisible = ref([]);
 const textContent = ref("");
-
+const answer = ref("");
+const isLoading = ref(false);
 let debounceTimeout = null;
 async function fetchData() {
   try {
@@ -70,30 +82,39 @@ function changeTab() {
 }
 
 async function analyze() {
+  if (isLoading.value) return;
+  isLoading.value = true;
   try {
-    // const responseFolders = await $api.get(`api/v1/normalize`, {
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    //   params: {
-    //     text: textContent.value,
-    //   },
-    // });
-    // availableChips.value = responseFolders.data;
-    console.log({
-      text: textContent.value,
-      folders_id: selectedChips.value.map((chip) => {
-        return chip.id;
-      }),
-    });
+    const responseFolders = await $api.post(
+      `api/v1/gpt/analyze`,
+      {
+        text: textContent.value.replace('"', "'"),
+        folders_ids: selectedChips.value.map((chip) => {
+          return chip.id;
+        }),
+      },
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    answer.value =
+      "Result - " +
+      responseFolders.data.result +
+      "\n" +
+      responseFolders.data.description;
     createNotification(`Text successful analyzed.`, "success");
   } catch (error) {
     console.error("Error fetching data:", error);
     createNotification(`Unable to analyze the text.`, "error");
   }
+  isLoading.value = false;
 }
 async function normalize() {
+  if (isLoading.value) return;
+  isLoading.value = true;
   try {
     // const responseFolders = await $api.get(`api/v1/normalize`, {
     //   headers: {
@@ -113,6 +134,7 @@ async function normalize() {
     console.error("Error fetching data:", error);
     createNotification(`Unable to display the text in the template`, "error");
   }
+  isLoading.value = false;
 }
 async function short_requirements() {
   chipsToVisible.value = chipsToVisible.value.filter((chip) =>
@@ -288,5 +310,9 @@ textarea:focus {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+.disabled {
+  cursor: wait;
+  opacity: 70%;
 }
 </style>
