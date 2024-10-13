@@ -98,8 +98,8 @@ async function removeFolder(folder) {
   );
 
   const files = foundFolder ? foundFolder.files : [];
-
-  if (files.length > 0) {
+  console.log(foundFolder);
+  if (files && files.length > 0) {
     createNotification("The folder must be empty to delete it.", "error");
     return;
   }
@@ -182,6 +182,7 @@ async function addFiles(currentFolder) {
     }
     await fetchFiles(folderId);
     createNotification("Files successfully added", "success");
+    extractedFiles.value = [];
   } catch (error) {
     console.error("Error adding files:", error);
     createNotification(`${error.response.data.detail}`, "error");
@@ -308,7 +309,7 @@ onMounted(() => {
 .modal {
   color: var(--main--color);
 }
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .admin_wrapper {
     flex-direction: column;
   }
@@ -316,6 +317,9 @@ onMounted(() => {
     width: 100%;
   }
   .panel {
+    width: 100%;
+  }
+  .block {
     width: 100%;
   }
 }
