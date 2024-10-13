@@ -1,0 +1,25 @@
+version: "3.3"
+
+services:
+  atom_front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: atom_front
+    ports:
+      - "3000:3000" # Порт, на котором будет доступно приложение
+    restart: on-failure
+    volumes:
+      - ./nuxt.config.ts:/web/nuxt.config.ts # Конфигурационный файл Nuxt
+      - ./assets:/web/assets # Статические ресурсы
+      - ./components:/web/components # Компоненты
+      - ./layouts:/web/layouts # Макеты
+      - ./middleware:/web/middleware # Промежуточное ПО
+      - ./pages:/web/pages # Страницы
+      - ./plugins:/web/plugins # Плагины
+      - ./public:/web/public # Публичные файлы
+      - ./utils:/web/utils # Утилиты
+      - /web/node_modules # Монтирование node_modules (можно оставить, если нужно)
+    environment:
+      - NODE_ENV=development # Установка режима разработки
+    command: npm run dev # Команда для запуска приложения в режиме разработки
