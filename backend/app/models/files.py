@@ -16,4 +16,4 @@ class FilesTable(SQLModel, table=True):
 
 class AssayTextModel(SQLModel):
     text: str = Field(nullable=False)
-    list: list[uuid.UUID]
+    folders_ids: list[uuid.UUID]

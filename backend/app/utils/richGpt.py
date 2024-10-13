@@ -1,38 +1,43 @@
-import requests
+import httpx
 import json
-import re
+import asyncio
 from app.config import getSettings
+from fastapi import HTTPException
 
-async def sendMessage(api_key, url, instruction, temperature, messages):
+async def sendMessage(url, messages):
     """
     Отправляет сообщение через API.
     
     Args:
-        api_key (str): API-ключ.
         url (str): URL API-endpoint.
-        instruction (str): Инструкция для API.
-        temperature (float): Температура для генерации ответа.
         messages (list): Список сообщений в формате, ожидаемом API.
     
     Returns:
         dict: Ответ API.
+    
+    Raises:
+        httpx.HTTPStatusError: Если ответ имеет статус ошибки.
+        ValueError: Если ответ не может быть преобразован в JSON.
     """
-    data = {
-        "instruction": instruction,
-        "temperature": temperature,
-        "messages": messages,
-    }
-    
     headers = {
-        "x-api-key": api_key
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {getSettings().PROXY_API_KEY}",  # Убедитесь, что у вас есть ключ API
+        "Anthropic-Version": "2023-06-01"  # Версия API
+    }
+
+    data = {
+        "model": "claude-3-opus-20240229",  # Укажите модель
+        "messages": messages,
+        "max_tokens": 1024,
     }
     
-    response = requests.post(url, json=data, headers=headers)
-    response.raise_for_status()
-    
-    return response.json()
+    async with httpx.AsyncClient() as client:
+        response = await client.post(url, headers=headers, json=data, timeout=40)
+        response.raise_for_status()  # Проверка на статус ошибки
+
+        return response.json()
+
 async def assayText(user_text: str, requirment_texts: list[str]):
-    api_key = getSettings().PROXY_API_KEY
     url = getSettings().URL
 
     instruction = """
@@ -49,7 +54,7 @@ async def assayText(user_text: str, requirment_texts: list[str]):
 
     messages = [
         {
-            "role": "user",
+            "role": "system",
             "content": instruction
         },
         {
@@ -69,11 +74,13 @@ async def assayText(user_text: str, requirment_texts: list[str]):
                 """
             }
         )
-    response = await sendMessage(api_key, url, '', 0.1, messages)
-    text = response['content'][0]['text']
 
-    # Использование регулярного выражения для извлечения JSON
-    json_match = re.search(r'\{.*?\}', text, re.DOTALL)
-    json_string = json_match.group(0).replace('\n', '').replace('\\', '')
-    data = json.loads(json_string)
-    return data
+    # Добавляем задержку в 5 секунд
+    await asyncio.sleep(5)
+
+    response = await sendMessage(url, messages)
+    
+    # # Обработка ответа
+    # json_string = response['completion']  # Измените на правильный ключ для ответа
+    # data = json.loads(json_string)
+    return response

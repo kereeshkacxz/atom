@@ -6,7 +6,7 @@ from app.db.connection import getSession
 from app.models import FoldersTable, FilesTable
 from app.repositories.files import getFolder, getFilesByFolder, getFile
 from app.utils.pdf import pdfToText
-from app.utils.gpt import assayText
+from app.utils.haikuGpt import assayText
 from app.models import AssayTextModel
 from starlette import status
 
@@ -33,7 +33,6 @@ async def gpt(analyze_data: AssayTextModel, session: AsyncSession = Depends(getS
             pdfText = await pdfToText(file_url)
             requirment_texts.append(pdfText)
 
-    
     final_text = await assayText(analyze_data.text, requirment_texts)
     
     return final_text
